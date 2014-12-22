@@ -10,29 +10,29 @@
 Pod::Spec.new do |s|
   s.name             = "RaisinToast"
   s.version          = "0.1.0"
-  s.summary          = "A short description of RaisinToast."
+  s.summary          = "A UIWindow subclass used to message information to the users of your app."
   s.description      = <<-DESC
                        An optional longer description of RaisinToast
 
                        * Markdown format.
                        * Don't worry about the indent, we strip it!
                        DESC
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/RaisinToast"
+  s.homepage         = "https://github.com/Raizlabs/RaisinToast"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "adamhrz" => "adam.howitt@raizlabs.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/RaisinToast.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.source           = { :git => "https://github.com/Raizlabs/RaisinToast.git", :tag => s.version.to_s }
+  s.social_media_url = 'https://twitter.com/earnshavian'
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.source_files = 'Pod/Classes'
+  s.source_files = 'Pod/Classes/**/*.[hm]'
   s.resource_bundles = {
     'RaisinToast' => ['Pod/Assets/*.png']
   }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  s.public_header_files = 'Pod/Classes/**/*.h'
+  s.frameworks = 'UIKit'
   # s.dependency 'AFNetworking', '~> 2.3'
 end
