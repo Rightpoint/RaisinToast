@@ -13,7 +13,7 @@
 /**
  *  Returns a new NSError object with the correct domain and code.
  */
-+ (instancetype)bh_error;
++ (instancetype)rz_error;
 
 /**
  *  Returns a new NSError object with the localized description updated to the new text
@@ -22,7 +22,7 @@
  *
  *  @return update NSError object
  */
-- (NSError *)bh_updateLocalizedDescription:(NSString *)localizedDescription;
+- (NSError *)rz_updateLocalizedDescription:(NSString *)localizedDescription;
 
 /**
  *  Returns a new NSError object with the localized Recovery Suggestion updated to the new text
@@ -31,7 +31,7 @@
  *
  *  @return updated NSError object.
  */
-- (NSError *)bh_updateLocalizedRecoverySuggestion:(NSString *)localizedRecoverySuggestion;
+- (NSError *)rz_updateLocalizedRecoverySuggestion:(NSString *)localizedRecoverySuggestion;
 
 /**
  *  Returns a new NSError object with the localized failure reason updated to the new text
@@ -40,6 +40,6 @@
  *
  *  @return updated NSError object.
  */
-- (NSError *)bh_updateLocalizedFailureReason:(NSString *)localizedFailureReason;
+- (NSError *)rz_updateLocalizedFailureReason:(NSString *)localizedFailureReason;
 
 @end

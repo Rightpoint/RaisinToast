@@ -76,6 +76,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
     RZMessagingWindow *messageWindow = [[RZMessagingWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     RZRootMessagingViewController *rootVC = [[RZRootMessagingViewController alloc] init];
     messageWindow.rootViewController = rootVC;
+    //Automatically adds itself
     messageWindow.hidden = NO;
     return messageWindow;
 }
@@ -192,10 +193,13 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 #pragma mark - Private Methods
 - (void)showMessage:(RZMessage *)message
 {
-    //!TODO: refactor this method a bit.
+
     if ( !self.errorPresented && !self.errorIsBeingPresented ) {
         self.errorIsBeingPresented = YES;
-        UIViewController *messageVC = [[self.messageViewControllerClass alloc] init];
+
+        NSAssert(self.viewCreationBlock != nil, @"A view configuration block is required to present an error and must return a view controller.");
+        
+        UIViewController *messageVC = self.viewCreationBlock(message.error);
         [self.rootViewController addChildViewController:messageVC];
         [self.rootViewController.view addSubview:messageVC.view];
         [messageVC didMoveToParentViewController:self.rootViewController];

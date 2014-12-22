@@ -142,12 +142,16 @@ typedef NS_ENUM(u_int8_t, RZErrorMessageSeverity) {
 
 + (RZMessageStrength)strengthOfDisplayedError;
 
++ (void)setDefaultMessagingWindow:(RZMessagingWindow *)errorWindow;
+
+//+setDefaultMessagingWindow - static var type RZErrorMessagingWindow -, private getter
+
 @end
 
 /**
  *  Error extensions to support the method of display from the error messenger.
  */
-@interface NSError (BHErrorMessenger)
+@interface NSError (RZErrorMessenger)
 
 /**
  *  Updates the color on the userInfo object of the NSError
@@ -158,13 +162,13 @@ typedef NS_ENUM(u_int8_t, RZErrorMessageSeverity) {
  *
  *  @return A new NSError instance.
  */
-- (NSError *)bh_updateColorOnErrorWithColor:(RZErrorMessengerColor)color;
+- (NSError *)rz_updateColorOnErrorWithColor:(RZErrorMessengerColor)color;
 
 /**
  *  The color stored in the NSError's userInfo.  This is a convience method.
  *
  *  @return The color value.  Default is Red.
  */
-- (RZErrorMessengerColor)bh_colorFromError;
+- (RZErrorMessengerColor)rz_colorFromError;
 
 @end

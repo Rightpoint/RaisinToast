@@ -1,6 +1,6 @@
 //
 //  RZErrorMessenger.m
-//  bhphoto
+//  RaisinToast
 //
 //  Created by alex.rouse on 8/11/14.
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
@@ -11,6 +11,9 @@
 #import "RZMessagingWindow.h"
 
 #import "NSError+RZMutablility.h"
+
+static RZMessagingWindow *kRZMessagingWindowDefaultMessagingWindow = nil;
+static NSString *kRZMessagingWindowDefaultErrorDomain = @"com.raizlabs.error";
 
 @implementation RZErrorMessenger
 
@@ -47,7 +50,7 @@
         dict[NSLocalizedRecoverySuggestionErrorKey] = detail;
     }
     
-    NSError *error = [NSError errorWithDomain:@"com.bhphotovideo.error" code:999 userInfo:dict];
+    NSError *error = [NSError errorWithDomain:[RZErrorMessenger getDefaultErrorDomain] code:999 userInfo:dict];
     
     return [self displayError:error withStrength:kRZMessageStrengthWeak color:color animated:YES];
 }
@@ -70,9 +73,10 @@
 
 + (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength color:(RZErrorMessengerColor)color animated:(BOOL)animated
 {
+    NSAssert([RZErrorMessenger getDefaultMessagingWindow] != nil, @"You must call setDefaultMessagingWindow with a valid RZMessagingWindow to display an error, typically in your app delegate when you configure the RZMessagingWindow view creation, configuration, preesntation and dismissal blocks.");
     error = [self performErrorValidationOnError:error];
-    error = [error bh_updateColorOnErrorWithColor:color];
-    [[[BHAppDelegate appDelegate] errorWindow] showMessageFromError:error strength:strength animated:animated];
+    error = [error rz_updateColorOnErrorWithColor:color];
+    [[RZErrorMessenger getDefaultMessagingWindow] showMessageFromError:error strength:strength animated:animated];
     return error;
 }
 
@@ -85,12 +89,12 @@
 
 + (void)hideError:(NSError *)error animated:(BOOL)animated
 {
-    [[[BHAppDelegate appDelegate] errorWindow] hideMessage:error animated:animated];
+    [[RZErrorMessenger getDefaultMessagingWindow] hideMessage:error animated:animated];
 }
 
 + (void)hideAllErrors
 {
-    [[[BHAppDelegate appDelegate] errorWindow] hideAllMessagesAnimated:YES];
+    [[RZErrorMessenger getDefaultMessagingWindow] hideAllMessagesAnimated:YES];
 }
 
 #pragma mark - Helpers
@@ -99,14 +103,14 @@
 {
     if ( error != nil ){
         
-        if ( [error.domain isEqualToString:kBHWebserviceErrorDomain] ) {
-            if ( [[error.userInfo valueForKey:kBHWebserviceResponseErrorHasErrorTitle] boolValue] ) {
+        if ( [error.domain isEqualToString:kRZWebserviceErrorDomain] ) {
+            if ( [[error.userInfo valueForKey:kRZWebserviceResponseErrorHasErrorTitle] boolValue] ) {
                 NSString *errorTitle = [error localizedDescription];
                 if (errorTitle != nil){
                     title = errorTitle;
                 }
             }
-            if ( [[error.userInfo valueForKey:kBHWebserviceResponseErrorHasErrorMessage] boolValue] ) {
+            if ( [[error.userInfo valueForKey:kRZWebserviceResponseErrorHasErrorMessage] boolValue] ) {
                 NSString *errorMessage = [error localizedRecoverySuggestion];
                 if ( errorMessage != nil ){
                     detail = errorMessage;
@@ -116,7 +120,7 @@
         else {
             switch ( error.code ) {
                 case NSURLErrorNotConnectedToInternet:
-                    detail = kBHDefaultErrorMessageNoNetwork;
+                    detail = kRZDefaultErrorMessageNoNetwork;
                     break;
                     
                 default:
@@ -125,22 +129,22 @@
         }
     }
     else {
-        error = [NSError errorWithDomain:@"com.bhphotovideo.error" code:999 userInfo:nil];
+        error = [NSError errorWithDomain:[RZErrorMessenger getDefaultErrorDomain] code:999 userInfo:nil];
     }
 
-    error = [error bh_updateLocalizedRecoverySuggestion:detail];
-    error = [error bh_updateLocalizedDescription:title];
+    error = [error rz_updateLocalizedRecoverySuggestion:detail];
+    error = [error rz_updateLocalizedDescription:title];
     return error;
 }
 
 + (BOOL)isErrorCurrentlyDisplayed
 {
-    return  [[[BHAppDelegate appDelegate] errorWindow] isCurrentlyDisplayingAnError];
+    return  [[RZErrorMessenger getDefaultMessagingWindow] isCurrentlyDisplayingAnError];
 }
 
 + (RZMessageStrength)strengthOfDisplayedError
 {
-    return [[[BHAppDelegate appDelegate] errorWindow] strengthOfDisplayedError];
+    return [[RZErrorMessenger getDefaultMessagingWindow] strengthOfDisplayedError];
 }
 
 
@@ -149,25 +153,45 @@
 + (NSError *)performErrorValidationOnError:(NSError *)error
 {
     if (error.code == NSURLErrorNotConnectedToInternet) {
-        error = [error bh_updateLocalizedRecoverySuggestion:kBHDefaultErrorMessageNoNetwork];
+        error = [error rz_updateLocalizedRecoverySuggestion:kRZDefaultErrorMessageNoNetwork];
     }
     return error;
+}
+
++ (NSString *)getDefaultErrorDomain
+{
+    return kRZMessagingWindowDefaultErrorDomain;
+}
+
++ (void)setDefaultErrorDomain:(NSString *)errorDomain
+{
+    kRZMessagingWindowDefaultErrorDomain = [errorDomain copy];
+}
+
++ (RZMessagingWindow *)getDefaultMessagingWindow
+{
+    return kRZMessagingWindowDefaultMessagingWindow;
+}
+
++ (void)setDefaultMessagingWindow:(RZMessagingWindow *)errorWindow
+{
+    kRZMessagingWindowDefaultMessagingWindow = errorWindow;
 }
 
 @end
 
 static NSString * const kRZErrorMessengerErrorKeyColor = @"RZErrorMessengerErrorKeyColor";
 
-@implementation NSError (BHErrorMessenger)
+@implementation NSError (RZErrorMessenger)
 
-- (NSError *)bh_updateColorOnErrorWithColor:(RZErrorMessengerColor)color
+- (NSError *)rz_updateColorOnErrorWithColor:(RZErrorMessengerColor)color
 {
     NSMutableDictionary *userInfo = [self.userInfo mutableCopy];
     userInfo[kRZErrorMessengerErrorKeyColor] = @(color);
     return [NSError errorWithDomain:self.domain code:self.code userInfo:userInfo];
 }
 
-- (RZErrorMessengerColor)bh_colorFromError
+- (RZErrorMessengerColor)rz_colorFromError
 {
     RZErrorMessengerColor color = kRZErrorMessengerColorRed;
     NSNumber *errorValue = self.userInfo[kRZErrorMessengerErrorKeyColor];

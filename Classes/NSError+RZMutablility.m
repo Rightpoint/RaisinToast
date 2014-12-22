@@ -10,12 +10,12 @@
 
 @implementation NSError (RZMutablility)
 
-+ (instancetype)bh_error
++ (instancetype)rz_error
 {
-    return [NSError errorWithDomain:@"com.bhphotovideo.warning" code:999 userInfo:@{}];
+    return [NSError errorWithDomain:@"com.raizlabs.warning" code:999 userInfo:@{}];
 }
 
-- (NSError *)bh_updateLocalizedDescription:(NSString *)localizedDescription
+- (NSError *)rz_updateLocalizedDescription:(NSString *)localizedDescription
 {
     NSMutableDictionary *userInfo = [self.userInfo mutableCopy];
     if ( localizedDescription != nil ) {
@@ -24,7 +24,7 @@
     return [NSError errorWithDomain:self.domain code:self.code userInfo:userInfo];
 }
 
-- (NSError *)bh_updateLocalizedRecoverySuggestion:(NSString *)localizedRecoverySuggestion
+- (NSError *)rz_updateLocalizedRecoverySuggestion:(NSString *)localizedRecoverySuggestion
 {
     NSMutableDictionary *userInfo = [self.userInfo mutableCopy];
     if ( localizedRecoverySuggestion != nil ) {
@@ -33,7 +33,7 @@
     return [NSError errorWithDomain:self.domain code:self.code userInfo:userInfo];
 }
 
-- (NSError *)bh_updateLocalizedFailureReason:(NSString *)localizedFailureReason
+- (NSError *)rz_updateLocalizedFailureReason:(NSString *)localizedFailureReason
 {
     NSMutableDictionary *userInfo = [self.userInfo mutableCopy];
     if ( localizedFailureReason != nil ) {

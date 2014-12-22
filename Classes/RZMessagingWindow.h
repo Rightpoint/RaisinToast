@@ -38,6 +38,8 @@ typedef NS_ENUM(u_int8_t, RZMessageStrength)
     kRZMessageStrengthStrongUserControlled
 };
 
+typedef UIViewController *(^RZMessagingWindowViewCreationBlock)(NSError *configuration);
+
 /**
  *  ViewController configuration block.  Given a viewController of the passed in class and allows the caller
  *  to configure its layout and other properties based off of an NSError object.
@@ -73,7 +75,7 @@ typedef void(^RZMessagingWindowAnimationBlock)(UIViewController *messageVC, UIVi
  */
 @property (copy, nonatomic) RZMessagingWindowViewControllerBlock viewConfigurationBlock;
 
-
+@property (copy, nonatomic) RZMessagingWindowViewCreationBlock viewCreationBlock;
 @property (copy, nonatomic) RZMessagingWindowAnimationBlock viewPresentationAnimationBlock;
 @property (copy, nonatomic) RZMessagingWindowAnimationBlock viewDismissalAnimationBlock;
 
