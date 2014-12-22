@@ -10,15 +10,17 @@
 #import "RZMessagingWindow.h"
 
 /**
- *  The color possibilities for the Error messages
+ *  The level possibilities for the Error messages
  */
-typedef NS_ENUM(u_int8_t, RZErrorMessengerColor) {
-    kRZErrorMessengerColorRed,
-    kRZErrorMessengerColorBlue
+typedef NS_ENUM(u_int8_t, RZErrorMessengerLevel) {
+    kRZErrorMessengerLevelError,
+    kRZErrorMessengerLevelWarning,
+    kRZErrorMessengerLevelInfo,
+    kRZErrorMessengerLevelPositive
 };
 
 /**
- *  The Severity of the error message.  Controls the color the message is displayed in.
+ *  The Severity of the error message.  Controls the level the message is displayed in.
  */
 typedef NS_ENUM(u_int8_t, RZErrorMessageSeverity) {
     /**
@@ -52,15 +54,15 @@ typedef NS_ENUM(u_int8_t, RZErrorMessageSeverity) {
 + (NSError *)displayErrorWithTitle:(NSString *)title details:(NSArray *)details;
 
 /**
- *  Displays an error given a title and detail as well as a color.  Default Severity type is Weak.
+ *  Displays an error given a title and detail as well as a level.  Default Severity type is Weak.
  *
  *  @param title  The title of the error
  *  @param detail The detail message of the error
- *  @param color  The color to display the error
+ *  @param level  The level to display the error
  *
  *  @return The new error object.
  */
-+ (NSError *)displayErrorWithTitle:(NSString *)title detail:(NSString *)detail color:(RZErrorMessengerColor)color;
++ (NSError *)displayErrorWithTitle:(NSString *)title detail:(NSString *)detail level:(RZErrorMessengerLevel)level;
 
 /**
  *  Displays an error.  Defaults to weak and Red.  Also is Animated
@@ -91,19 +93,19 @@ typedef NS_ENUM(u_int8_t, RZErrorMessageSeverity) {
 + (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength animated:(BOOL)animated;
 
 /**
- *  This displays an error with the strength and color passed in.  All other presentation 
+ *  This displays an error with the strength and level passed in.  All other presentation 
  *  methods pass through this method.
  *  Error.localizedDescription will be used for the title of the error alert.
  *  Error.localizedRecoverSuggestion will be used for the detail text of the error.
  *
  *  @param error    The error container information about the message.
  *  @param strength The strength of the error message displayed.
- *  @param color    The color of the error message.
+ *  @param level    The level of the error message.
  *  @param animated If the error should animate.
  *
  *  @return An error instance that is modified.  Used to dismiss the message by an error.
  */
-+ (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength color:(RZErrorMessengerColor)color animated:(BOOL)animated;
++ (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength level:(RZErrorMessengerLevel)level animated:(BOOL)animated;
 
 
 /**
@@ -164,21 +166,21 @@ typedef NS_ENUM(u_int8_t, RZErrorMessageSeverity) {
 @interface NSError (RZErrorMessenger)
 
 /**
- *  Updates the color on the userInfo object of the NSError
+ *  Updates the level on the userInfo object of the NSError
  *
  *  @note  This returns a new instance of NSError since it isn't mutable
  *
- *  @param color The color stored in the NSError
+ *  @param level The level stored in the NSError
  *
  *  @return A new NSError instance.
  */
-- (NSError *)rz_updateColorOnErrorWithColor:(RZErrorMessengerColor)color;
+- (NSError *)rz_updateLevelOnErrorWithLevel:(RZErrorMessengerLevel)level;
 
 /**
- *  The color stored in the NSError's userInfo.  This is a convience method.
+ *  The level stored in the NSError's userInfo.  This is a convience method.
  *
- *  @return The color value.  Default is Red.
+ *  @return The level value.  Default is Error.
  */
-- (RZErrorMessengerColor)rz_colorFromError;
+- (RZErrorMessengerLevel)rz_levelFromError;
 
 @end

@@ -36,10 +36,10 @@ static NSString *kRZDefaultErrorMessageNoNetwork      = @"You are not connected 
         }
     }];
     
-    return [self displayErrorWithTitle:title detail:[errorString copy] color:kRZErrorMessengerColorRed];
+    return [self displayErrorWithTitle:title detail:[errorString copy] level:kRZErrorMessengerLevelError];
 }
 
-+ (NSError *)displayErrorWithTitle:(NSString *)title detail:(NSString *)detail color:(RZErrorMessengerColor)color
++ (NSError *)displayErrorWithTitle:(NSString *)title detail:(NSString *)detail level:(RZErrorMessengerLevel)level
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
@@ -53,7 +53,7 @@ static NSString *kRZDefaultErrorMessageNoNetwork      = @"You are not connected 
     
     NSError *error = [NSError errorWithDomain:[RZErrorMessenger getDefaultErrorDomain] code:999 userInfo:dict];
     
-    return [self displayError:error withStrength:kRZMessageStrengthWeak color:color animated:YES];
+    return [self displayError:error withStrength:kRZMessageStrengthWeak level:level animated:YES];
 }
 
 + (NSError *)displayErrorWithTitle:(NSString *)title detail:(NSString *)detail error:(NSError *)error
@@ -69,14 +69,14 @@ static NSString *kRZDefaultErrorMessageNoNetwork      = @"You are not connected 
 
 + (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength animated:(BOOL)animated
 {
-    return [self displayError:error withStrength:strength color:kRZErrorMessengerColorRed animated:animated];
+    return [self displayError:error withStrength:strength level:kRZErrorMessengerLevelError animated:animated];
 }
 
-+ (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength color:(RZErrorMessengerColor)color animated:(BOOL)animated
++ (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength level:(RZErrorMessengerLevel)level animated:(BOOL)animated
 {
     NSAssert([RZErrorMessenger getDefaultMessagingWindow] != nil, @"You must call setDefaultMessagingWindow with a valid RZMessagingWindow to display an error, typically in your app delegate when you configure the RZMessagingWindow view creation, configuration, preesntation and dismissal blocks.");
     error = [self performErrorValidationOnError:error];
-    error = [error rz_updateColorOnErrorWithColor:color];
+    error = [error rz_updateLevelOnErrorWithLevel:level];
     [[RZErrorMessenger getDefaultMessagingWindow] showMessageFromError:error strength:strength animated:animated];
     return error;
 }
@@ -154,25 +154,25 @@ static NSString *kRZDefaultErrorMessageNoNetwork      = @"You are not connected 
 
 @end
 
-static NSString * const kRZErrorMessengerErrorKeyColor = @"RZErrorMessengerErrorKeyColor";
+static NSString * const kRZErrorMessengerErrorKeyLevel = @"RZErrorMessengerErrorKeyLevel";
 
 @implementation NSError (RZErrorMessenger)
 
-- (NSError *)rz_updateColorOnErrorWithColor:(RZErrorMessengerColor)color
+- (NSError *)rz_updateLevelOnErrorWithLevel:(RZErrorMessengerLevel)level
 {
     NSMutableDictionary *userInfo = [self.userInfo mutableCopy];
-    userInfo[kRZErrorMessengerErrorKeyColor] = @(color);
+    userInfo[kRZErrorMessengerErrorKeyLevel] = @(level);
     return [NSError errorWithDomain:self.domain code:self.code userInfo:userInfo];
 }
 
-- (RZErrorMessengerColor)rz_colorFromError
+- (RZErrorMessengerLevel)rz_levelFromError
 {
-    RZErrorMessengerColor color = kRZErrorMessengerColorRed;
-    NSNumber *errorValue = self.userInfo[kRZErrorMessengerErrorKeyColor];
+    RZErrorMessengerLevel level = kRZErrorMessengerLevelError;
+    NSNumber *errorValue = self.userInfo[kRZErrorMessengerErrorKeyLevel];
     if (errorValue != nil) {
-        color = [errorValue integerValue];
+        level = [errorValue integerValue];
     }
-    return color;
+    return level;
 }
 
 @end
