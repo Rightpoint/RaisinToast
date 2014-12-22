@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'RaisinToast', :exclusive => true do
+  pod "RaisinToast", :path => "../"
+end
+
+target 'Tests', :exclusive => true do
+  pod "RaisinToast", :path => "../"
+
+  pod 'Specta', '~> 0.2.1'
+  pod 'Expecta'
+end
