@@ -7,6 +7,7 @@
 //
 
 #import "RZAppDelegate.h"
+#import <RaisinToast/RZMessagingWindow.h>
 
 @implementation RZAppDelegate
 
@@ -41,6 +42,43 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark RaisinToast AppDelegate code
+- (void)setupMessagingWindow
+{
+    self.errorWindow = [RZMessagingWindow messagingWindow];
+    self.errorWindow.messageViewControllerClass = [BHErrorMessagingViewController class];
+    
+    
+    self.errorWindow.viewCreationBlock = ^UIViewController *(NSError *configuration) {
+        return [[BHErrorMessagingViewController alloc] init];
+    };
+    
+    self.errorWindow.viewConfigurationBlock = ^void(UIViewController *messageVC, UIView *containerView, NSError *configuration) {
+        
+        BHErrorMessagingViewController *errorVC = (BHErrorMessagingViewController *)messageVC;
+        
+        [errorVC createConstraintsWithContainer:containerView];
+        
+        [errorVC updateWithError:configuration];
+    };
+    
+    self.errorWindow.viewPresentationAnimationBlock = ^void(UIViewController *messageVC, UIView *containerView, RZMessagingWindowAnimationCompletionBlock completion) {
+        
+        BHErrorMessagingViewController *errorVC = (BHErrorMessagingViewController *)messageVC;
+        [errorVC updateViewForDisplay:YES completion:completion];
+    };
+    
+    self.errorWindow.viewDismissalAnimationBlock = ^void(UIViewController *messageVC, UIView *containerView, RZMessagingWindowAnimationCompletionBlock completion) {
+        
+        BHErrorMessagingViewController *errorVC = (BHErrorMessagingViewController *)messageVC;
+        [errorVC updateViewForDisplay:NO completion:completion];
+    };
+    
+    [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
+    [RZErrorMessenger setDefaultErrorDomain:@"com.bhphotovideo.error"];
+    
 }
 
 @end

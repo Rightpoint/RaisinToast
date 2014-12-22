@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class RZMessagingWindow;
+
 @interface RZAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) RZMessagingWindow *errorWindow;
 
 @end
