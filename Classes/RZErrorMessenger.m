@@ -32,10 +32,10 @@
         }
     }];
     
-    return [self displayErrorWithTitle:title detail:[errorString copy] color:kBHErrorMessangerColorRed];
+    return [self displayErrorWithTitle:title detail:[errorString copy] color:kBHErrorMessengerColorRed];
 }
 
-+ (NSError *)displayErrorWithTitle:(NSString *)title detail:(NSString *)detail color:(BHErrorMessangerColor)color
++ (NSError *)displayErrorWithTitle:(NSString *)title detail:(NSString *)detail color:(BHErrorMessengerColor)color
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
@@ -65,10 +65,10 @@
 
 + (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength animated:(BOOL)animated
 {
-    return [self displayError:error withStrength:strength color:kBHErrorMessangerColorRed animated:animated];
+    return [self displayError:error withStrength:strength color:kBHErrorMessengerColorRed animated:animated];
 }
 
-+ (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength color:(BHErrorMessangerColor)color animated:(BOOL)animated
++ (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength color:(BHErrorMessengerColor)color animated:(BOOL)animated
 {
     error = [self performErrorValidationOnError:error];
     error = [error bh_updateColorOnErrorWithColor:color];
@@ -156,21 +156,21 @@
 
 @end
 
-static NSString * const kBHErrorMessangerErrorKeyColor = @"BHErrorMessangerErrorKeyColor";
+static NSString * const kBHErrorMessengerErrorKeyColor = @"BHErrorMessengerErrorKeyColor";
 
-@implementation NSError (BHErrorMessanger)
+@implementation NSError (BHErrorMessenger)
 
-- (NSError *)bh_updateColorOnErrorWithColor:(BHErrorMessangerColor)color
+- (NSError *)bh_updateColorOnErrorWithColor:(BHErrorMessengerColor)color
 {
     NSMutableDictionary *userInfo = [self.userInfo mutableCopy];
-    userInfo[kBHErrorMessangerErrorKeyColor] = @(color);
+    userInfo[kBHErrorMessengerErrorKeyColor] = @(color);
     return [NSError errorWithDomain:self.domain code:self.code userInfo:userInfo];
 }
 
-- (BHErrorMessangerColor)bh_colorFromError
+- (BHErrorMessengerColor)bh_colorFromError
 {
-    BHErrorMessangerColor color = kBHErrorMessangerColorRed;
-    NSNumber *errorValue = self.userInfo[kBHErrorMessangerErrorKeyColor];
+    BHErrorMessengerColor color = kBHErrorMessengerColorRed;
+    NSNumber *errorValue = self.userInfo[kBHErrorMessengerErrorKeyColor];
     if (errorValue != nil) {
         color = [errorValue integerValue];
     }

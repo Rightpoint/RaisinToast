@@ -12,17 +12,15 @@
 /**
  *  The color possibilities for the Error messages
  */
-typedef NS_ENUM(u_int8_t, BHErrorMessangerColor)
-{
-    kBHErrorMessangerColorRed,
-    kBHErrorMessangerColorBlue
+typedef NS_ENUM(u_int8_t, BHErrorMessengerColor) {
+    kBHErrorMessengerColorRed,
+    kBHErrorMessengerColorBlue
 };
 
 /**
  *  The Severity of the error message.  Controls the color the message is displayed in.
  */
-typedef NS_ENUM(u_int8_t, BHErrorMessageSeverity)
-{
+typedef NS_ENUM(u_int8_t, BHErrorMessageSeverity) {
     /**
      *  A severe error message.  Call when the contents need to be shown as an error
      */
@@ -62,7 +60,7 @@ typedef NS_ENUM(u_int8_t, BHErrorMessageSeverity)
  *
  *  @return The new error object.
  */
-+ (NSError *)displayErrorWithTitle:(NSString *)title detail:(NSString *)detail color:(BHErrorMessangerColor)color;
++ (NSError *)displayErrorWithTitle:(NSString *)title detail:(NSString *)detail color:(BHErrorMessengerColor)color;
 
 /**
  *  Displays an error.  Defaults to weak and Red.  Also is Animated
@@ -105,7 +103,7 @@ typedef NS_ENUM(u_int8_t, BHErrorMessageSeverity)
  *
  *  @return An error instance that is modified.  Used to dismiss the message by an error.
  */
-+ (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength color:(BHErrorMessangerColor)color animated:(BOOL)animated;
++ (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength color:(BHErrorMessengerColor)color animated:(BOOL)animated;
 
 
 /**
@@ -147,9 +145,9 @@ typedef NS_ENUM(u_int8_t, BHErrorMessageSeverity)
 @end
 
 /**
- *  Error extensions to support the method of display from the error messanger.
+ *  Error extensions to support the method of display from the error messenger.
  */
-@interface NSError (BHErrorMessanger)
+@interface NSError (BHErrorMessenger)
 
 /**
  *  Updates the color on the userInfo object of the NSError
@@ -160,13 +158,13 @@ typedef NS_ENUM(u_int8_t, BHErrorMessageSeverity)
  *
  *  @return A new NSError instance.
  */
-- (NSError *)bh_updateColorOnErrorWithColor:(BHErrorMessangerColor)color;
+- (NSError *)bh_updateColorOnErrorWithColor:(BHErrorMessengerColor)color;
 
 /**
  *  The color stored in the NSError's userInfo.  This is a convience method.
  *
  *  @return The color value.  Default is Red.
  */
-- (BHErrorMessangerColor)bh_colorFromError;
+- (BHErrorMessengerColor)bh_colorFromError;
 
 @end
