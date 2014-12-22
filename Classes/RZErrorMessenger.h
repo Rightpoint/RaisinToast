@@ -1,6 +1,6 @@
 //
 //  RZErrorMessenger.h
-//  bhphoto
+//  RaisinToast
 //
 //  Created by alex.rouse on 8/11/14.
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
@@ -142,9 +142,19 @@ typedef NS_ENUM(u_int8_t, RZErrorMessageSeverity) {
 
 + (RZMessageStrength)strengthOfDisplayedError;
 
-+ (void)setDefaultMessagingWindow:(RZMessagingWindow *)errorWindow;
+/**
+ *  Configure a custom error domain to display on generated error messages
+ *
+ *  @param errorDomain NSString typically in reverse order. If unset defaults to com.raizlabs.error
+ */
++ (void)setDefaultErrorDomain:(NSString *)errorDomain;
 
-//+setDefaultMessagingWindow - static var type RZErrorMessagingWindow -, private getter
+/**
+ *  Configure the default messaging window to present the generated error messages. You must call setDefaultMessagingWindow with a valid RZMessagingWindow to display an error, typically in your app delegate when you configure the RZMessagingWindow view.
+ *
+ *  @param errorWindow RZMessagingWindow is configured with creation, configuration, presentation and dismissal blocks.
+ */
++ (void)setDefaultMessagingWindow:(RZMessagingWindow *)errorWindow;
 
 @end
 

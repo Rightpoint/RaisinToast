@@ -1,6 +1,6 @@
 //
 //  NSError+RZMutablility.m
-//  bhphoto
+//  RaisinToast
 //
 //  Created by alex.rouse on 8/12/14.
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
@@ -8,11 +8,13 @@
 
 #import "NSError+RZMutablility.h"
 
+static NSString *kRZMessagingWindowDefaultWarningDomain = @"com.raizlabs.warning";
+
 @implementation NSError (RZMutablility)
 
 + (instancetype)rz_error
 {
-    return [NSError errorWithDomain:@"com.raizlabs.warning" code:999 userInfo:@{}];
+    return [NSError errorWithDomain:kRZMessagingWindowDefaultWarningDomain code:999 userInfo:@{}];
 }
 
 - (NSError *)rz_updateLocalizedDescription:(NSString *)localizedDescription

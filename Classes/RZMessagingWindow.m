@@ -1,6 +1,6 @@
 //
 //  RZMessagingWindow.m
-//  bhphoto
+//  RaisinToast
 //
 //  Created by alex.rouse on 8/13/14.
 //  Copyright (c) 2014 Raizlabs. All rights reserved.

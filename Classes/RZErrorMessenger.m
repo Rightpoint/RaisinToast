@@ -14,6 +14,7 @@
 
 static RZMessagingWindow *kRZMessagingWindowDefaultMessagingWindow = nil;
 static NSString *kRZMessagingWindowDefaultErrorDomain = @"com.raizlabs.error";
+static NSString *kRZDefaultErrorMessageNoNetwork      = @"You are not connected to the internet. Please fix your connection and try again.";
 
 @implementation RZErrorMessenger
 
@@ -101,34 +102,7 @@ static NSString *kRZMessagingWindowDefaultErrorDomain = @"com.raizlabs.error";
 
 + (NSError *)errorWithDisplayTitle:(NSString *)title detail:(NSString *)detail error:(NSError *)error
 {
-    if ( error != nil ){
-        
-        if ( [error.domain isEqualToString:kRZWebserviceErrorDomain] ) {
-            if ( [[error.userInfo valueForKey:kRZWebserviceResponseErrorHasErrorTitle] boolValue] ) {
-                NSString *errorTitle = [error localizedDescription];
-                if (errorTitle != nil){
-                    title = errorTitle;
-                }
-            }
-            if ( [[error.userInfo valueForKey:kRZWebserviceResponseErrorHasErrorMessage] boolValue] ) {
-                NSString *errorMessage = [error localizedRecoverySuggestion];
-                if ( errorMessage != nil ){
-                    detail = errorMessage;
-                }
-            }
-        }
-        else {
-            switch ( error.code ) {
-                case NSURLErrorNotConnectedToInternet:
-                    detail = kRZDefaultErrorMessageNoNetwork;
-                    break;
-                    
-                default:
-                    break;
-            }
-        }
-    }
-    else {
+    if ( error == nil ){
         error = [NSError errorWithDomain:[RZErrorMessenger getDefaultErrorDomain] code:999 userInfo:nil];
     }
 
