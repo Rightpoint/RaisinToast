@@ -1,20 +1,14 @@
 PODS:
-  - Expecta (0.3.1)
   - RaisinToast (0.1.0)
-  - Specta (0.2.1)
 
 DEPENDENCIES:
-  - Expecta
   - RaisinToast (from `../`)
-  - Specta (~> 0.2.1)
 
 EXTERNAL SOURCES:
   RaisinToast:
     :path: ../
 
 SPEC CHECKSUMS:
-  Expecta: 03aabd0a89d8dea843baecb19a7fd7466a69a31d
-  RaisinToast: abd55bd63afb72015cd2e9ad7cea7d3c7c04166d
-  Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
+  RaisinToast: 2787c945f119560354566b184132f0ba58b33882
 
 COCOAPODS: 0.35.0

@@ -7,6 +7,7 @@
 //
 
 #import "RZViewController.h"
+
 @interface RZViewController ()
 
 @end
@@ -19,6 +20,13 @@
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [RZErrorMessenger displayErrorWithTitle:@"First test" detail:@"This should present a default title"];
+
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -59,7 +59,6 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 @interface RZMessagingWindow ()
 
-@property (nonatomic, readonly) RZRootMessagingViewController *rootErrorVC;
 @property (strong, nonatomic) NSMutableArray *errorsToDisplay;
 
 @property (weak, nonatomic) UIView *backgroundInterceptView;
