@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.license          = 'MIT'
   s.author           = { "adamhrz" => "adam.howitt@raizlabs.com" }
   s.source           = { :git => "https://github.com/Raizlabs/RaisinToast.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/earnshavian'
+  s.social_media_url = 'https://twitter.com/earnshavian'
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
     'RaisinToast' => ['Pod/Assets/*.png']
   }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  s.public_header_files = 'Pod/Classes/**/*.h'
+  s.frameworks = 'UIKit'
   # s.dependency 'AFNetworking', '~> 2.3'
 end

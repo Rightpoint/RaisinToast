@@ -8,6 +8,8 @@
 
 #import "RZAppDelegate.h"
 #import <RaisinToast/RZMessagingWindow.h>
+#import <RaisinToast/RZErrorMessenger.h>
+#import <RaisinToast/RZErrorMessagingViewController.h>
 
 @implementation RZAppDelegate
 
@@ -48,16 +50,16 @@
 - (void)setupMessagingWindow
 {
     self.errorWindow = [RZMessagingWindow messagingWindow];
-    self.errorWindow.messageViewControllerClass = [BHErrorMessagingViewController class];
+    self.errorWindow.messageViewControllerClass = [RZErrorMessagingViewController class];
     
     
     self.errorWindow.viewCreationBlock = ^UIViewController *(NSError *configuration) {
-        return [[BHErrorMessagingViewController alloc] init];
+        return [[RZErrorMessagingViewController alloc] init];
     };
     
     self.errorWindow.viewConfigurationBlock = ^void(UIViewController *messageVC, UIView *containerView, NSError *configuration) {
         
-        BHErrorMessagingViewController *errorVC = (BHErrorMessagingViewController *)messageVC;
+        RZErrorMessagingViewController *errorVC = (RZErrorMessagingViewController *)messageVC;
         
         [errorVC createConstraintsWithContainer:containerView];
         
@@ -66,13 +68,13 @@
     
     self.errorWindow.viewPresentationAnimationBlock = ^void(UIViewController *messageVC, UIView *containerView, RZMessagingWindowAnimationCompletionBlock completion) {
         
-        BHErrorMessagingViewController *errorVC = (BHErrorMessagingViewController *)messageVC;
+        RZErrorMessagingViewController *errorVC = (RZErrorMessagingViewController *)messageVC;
         [errorVC updateViewForDisplay:YES completion:completion];
     };
     
     self.errorWindow.viewDismissalAnimationBlock = ^void(UIViewController *messageVC, UIView *containerView, RZMessagingWindowAnimationCompletionBlock completion) {
         
-        BHErrorMessagingViewController *errorVC = (BHErrorMessagingViewController *)messageVC;
+        RZErrorMessagingViewController *errorVC = (RZErrorMessagingViewController *)messageVC;
         [errorVC updateViewForDisplay:NO completion:completion];
     };
     

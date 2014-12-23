@@ -14,7 +14,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Expecta: 03aabd0a89d8dea843baecb19a7fd7466a69a31d
-  RaisinToast: a2cd88e89dd207c3da03a8c5b996cf11c917d504
+  RaisinToast: abd55bd63afb72015cd2e9ad7cea7d3c7c04166d
   Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
 
 COCOAPODS: 0.35.0
