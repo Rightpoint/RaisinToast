@@ -9,6 +9,9 @@
 #import "RZErrorMessagingViewController.h"
 #import "RZErrorMessenger.h"
 
+#import <RZUtils/NSString+RZStringSize.h>
+#import <RZUtils/UIView+RZAutoLayoutHelpers.h>
+
 CGFloat const kRZErrorMessagingViewVisibleHeight = 90.0f;
 CGFloat const kRZErrorMessagingViewVerticalPadding = 20.0f;
 
@@ -155,40 +158,8 @@ CGFloat const kRZErrorMessagingViewVerticalPadding = 20.0f;
 - (CGFloat)updatedHeightWithWidth:(CGFloat)width
 {
     CGFloat height = kRZErrorMessagingViewVisibleHeight;
-    
-    
-    
-    NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:self.detailLabel.text attributes:@{ NSFontAttributeName : self.detailLabel.font }];
-    CGRect rect = [attributedText boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
-                                               options:NSStringDrawingUsesLineFragmentOrigin
-                                               context:nil];
-    
-    CGSize size = rect.size;
-    
-    height += size.height;
+    height += [self.detailLabel.text rz_sizeWithFont:self.detailLabel.font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)].height;
     return height;
 }
-
-//- (CGSize)rz_sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode
-//{
-//    NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:self attributes:@{ NSFontAttributeName : font }];
-//    CGRect rect = [attributedText boundingRectWithSize:size
-//                                               options:NSStringDrawingUsesLineFragmentOrigin
-//                                               context:nil];
-//    
-//    return rect.size;
-//}
-//
-//- (CGSize)rz_sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size
-//{
-//    return [self rz_sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-//}
-//
-//- (CGSize)rz_sizeWithFont:(UIFont *)font
-//{
-//    return [self.detailLabel.text sizeWithAttributes:@{ NSFontAttributeName : font }];
-//}
-//
-
 
 @end

@@ -20,9 +20,9 @@ Pod::Spec.new do |s|
   s.homepage         = "https://github.com/Raizlabs/RaisinToast"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
-  s.author           = { "adamhrz" => "adam.howitt@raizlabs.com" }
+  s.author           = { "adamhrz" => "adam.howitt@raizlabs.com","arrouse" => "alex@raizlabs.com" }
   s.source           = { :git => "https://github.com/Raizlabs/RaisinToast.git", :tag => s.version.to_s }
-  s.social_media_url = 'https://twitter.com/earnshavian'
+  s.social_media_url = 'https://twitter.com/raizlabs'
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
@@ -35,5 +35,6 @@ Pod::Spec.new do |s|
 
   s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'RZUtils/Categories/NSString', '~> 2.4'
+  s.dependency 'RZUtils/Categories/UIView', '~> 2.4'
 end
