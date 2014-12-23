@@ -76,16 +76,8 @@ CGFloat const kRZErrorMessagingViewVerticalPadding = 20.0f;
 {
     self.view.translatesAutoresizingMaskIntoConstraints = NO;
     // Setup all the needed constraints for the view.
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.view
-                                                         attribute:NSLayoutAttributeHeight
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:nil
-                                                         attribute:NSLayoutAttributeNotAnAttribute
-                                                        multiplier:1.0f
-                                                          constant:kRZErrorMessagingViewVisibleHeight];
-    [container addConstraint:heightConstraint];
-    self.heightConstraint = heightConstraint;
-
+    self.heightConstraint = [self.view rz_pinHeightTo:kRZErrorMessagingViewVisibleHeight];
+    
     NSLayoutConstraint *errorBottomConstraint = [NSLayoutConstraint constraintWithItem:self.view
                                                                              attribute:NSLayoutAttributeBottom
                                                                              relatedBy:NSLayoutRelationEqual
@@ -95,25 +87,8 @@ CGFloat const kRZErrorMessagingViewVerticalPadding = 20.0f;
                                                                               constant:0.0f];
     [container addConstraint:errorBottomConstraint];
     self.bottomAnimationConstraint = errorBottomConstraint;
-    
-    NSLayoutConstraint *leftSpaceConstraint = [NSLayoutConstraint constraintWithItem:self.view
-                                                         attribute:NSLayoutAttributeLeft
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.view.superview
-                                                         attribute:NSLayoutAttributeLeft
-                                                        multiplier:1.0f
-                                                          constant:0.0f];
-    [self.view.superview addConstraint:leftSpaceConstraint];
-    
-    NSLayoutConstraint *rightSpaceConstraint = [NSLayoutConstraint constraintWithItem:self.view
-                                                         attribute:NSLayoutAttributeRight
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.view.superview
-                                                         attribute:NSLayoutAttributeRight
-                                                        multiplier:1.0f
-                                                          constant:-0.0f];
-    [self.view.superview addConstraint:rightSpaceConstraint];
-
+    [self.view rz_pinLeftSpaceToSuperviewWithPadding:0.0f];
+    [self.view rz_pinRightSpaceToSuperviewWithPadding:0.0f];
     self.view.alpha = 0.0f;
     [self.view setNeedsLayout];
     
