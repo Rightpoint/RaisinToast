@@ -7,6 +7,8 @@
 
 RaisinToast provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app.
 
+Insert GIF here of demo project in action
+
 ## Installation
 
 RaisinToast is available through [CocoaPods](http://cocoapods.org). To install
