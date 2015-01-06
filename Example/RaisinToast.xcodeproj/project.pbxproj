@@ -23,6 +23,7 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
+		BE3DE4701A5C9E060014B5E0 /* RZTCustomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3DE46F1A5C9E060014B5E0 /* RZTCustomViewController.m */; };
 		C6DB7A01B4A3FA8F12B42AC0 /* libPods-RaisinToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CE18BADC01114C422108D17 /* libPods-RaisinToast.a */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,8 @@
 		7B205C2DC79C6FBE7C045D3C /* libPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CE18BADC01114C422108D17 /* libPods-RaisinToast.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RaisinToast.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		926CD4776DC300BCB36B3C19 /* Pods-RaisinToast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaisinToast.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaisinToast/Pods-RaisinToast.release.xcconfig"; sourceTree = "<group>"; };
+		BE3DE46E1A5C9E060014B5E0 /* RZTCustomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZTCustomViewController.h; sourceTree = "<group>"; };
+		BE3DE46F1A5C9E060014B5E0 /* RZTCustomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZTCustomViewController.m; sourceTree = "<group>"; };
 		C618E22A06BB9C7C43A39D6C /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		DF0A4D826C66E5BD8DB8B12B /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		F6773EECFE3DFD7875174A3A /* RaisinToast.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RaisinToast.podspec; path = ../RaisinToast.podspec; sourceTree = "<group>"; };
@@ -138,6 +141,8 @@
 				6003F5A2195388D20070C39A /* Main_iPad.storyboard */,
 				6003F5A5195388D20070C39A /* RZTViewController.h */,
 				6003F5A6195388D20070C39A /* RZTViewController.m */,
+				BE3DE46E1A5C9E060014B5E0 /* RZTCustomViewController.h */,
+				BE3DE46F1A5C9E060014B5E0 /* RZTCustomViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
@@ -363,6 +368,7 @@
 			files = (
 				6003F59E195388D20070C39A /* RZTAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* RZTViewController.m in Sources */,
+				BE3DE4701A5C9E060014B5E0 /* RZTCustomViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

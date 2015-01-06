@@ -54,9 +54,10 @@ In implementation add private method:
 ```objc
 - (void)setupMessagingWindow
 {
-self.errorWindow = [RZMessagingWindow defaultMessagingWindow];
-[RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
-[RZErrorMessenger setDefaultErrorDomain:[NSString stringWithFormat:@"%@.error",[[NSBundle mainBundle] bundleIdentifier]]];
+    self.errorWindow = [RZMessagingWindow defaultMessagingWindow];
+
+    [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
+    [RZErrorMessenger setDefaultErrorDomain:[NSString stringWithFormat:@"%@.error",[[NSBundle mainBundle] bundleIdentifier]]];
 }
 ```
 
@@ -73,17 +74,19 @@ Override init and provide an alternative color definition for each level of erro
 ```objc
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-if ( self ) {
-self.colorForLevelDictionary = @{
-kRZLevelError :[UIColor redColor],
-kRZLevelInfo : [UIColor blueColor],
-kRZLevelWarning : [UIColor orangeColor],
-kRZLevelPositive : [UIColor greenColor]
-};
-self.errorMessagingViewVerticalPadding = -200.0f;
-}
-return self;
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
+    if ( self ) {
+        self.colorForLevelDictionary = @{
+            kRZLevelError :[UIColor redColor],
+            kRZLevelInfo : [UIColor blueColor],
+            kRZLevelWarning : [UIColor orangeColor],
+            kRZLevelPositive : [UIColor greenColor]
+            };
+        self.errorMessagingViewVerticalPadding = -200.0f;
+    }
+
+    return self;
 }
 ```
 

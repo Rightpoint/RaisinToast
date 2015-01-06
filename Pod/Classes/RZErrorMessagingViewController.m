@@ -28,10 +28,6 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
 @property (weak, nonatomic) NSLayoutConstraint *heightConstraint;
 @property (weak, nonatomic) NSError *displayedError;
 
-@property (strong, nonatomic) NSDictionary *colorForLevelDictionary;
-@property (assign, nonatomic) CGFloat errorMessagingViewVisibleHeight;
-@property (assign, nonatomic) CGFloat errorMessagingViewVerticalPadding;
-
 @end
 
 @implementation RZErrorMessagingViewController

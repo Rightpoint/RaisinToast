@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:RZTCustomViewController.h">
+   </FileRef>
+   <FileRef
+      location = "group:RZTCustomViewController.m">
+   </FileRef>
+   <FileRef
       location = "group:RaisinToast.xcodeproj">
    </FileRef>
    <FileRef

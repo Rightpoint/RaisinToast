@@ -9,7 +9,7 @@
 #import "RZTAppDelegate.h"
 #import <RaisinToast/RZMessagingWindow.h>
 #import <RaisinToast/RZErrorMessenger.h>
-#import <RaisinToast/RZErrorMessagingViewController.h>
+#import "RZTCustomViewController.h"
 
 @implementation RZTAppDelegate
 
@@ -17,12 +17,13 @@
 {
     // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
-    [self setupMessagingWindow];
+    [self setupDefaultMessagingWindow];
+//    [self setupCustomMessagingWindow];
     return YES;
 }
 
 #pragma mark RaisinToast AppDelegate code
-- (void)setupMessagingWindow
+- (void)setupDefaultMessagingWindow
 {
     self.errorWindow = [RZMessagingWindow defaultMessagingWindow];
     
@@ -30,14 +31,15 @@
     [RZErrorMessenger setDefaultErrorDomain:[NSString stringWithFormat:@"%@.error",[[NSBundle mainBundle] bundleIdentifier]]];
     
 }
-//    self.errorWindow = [RZMessagingWindow messagingWindow];
-//    self.errorWindow.viewConfigurationBlock = ^void(UIViewController *messageVC, UIView *containerView, NSError *configuration) {
-//        RZErrorMessagingViewController *errorVC = (RZErrorMessagingViewController *)messageVC;
-//        [errorVC setColorForLevelDictionary:@{
-//                                              kRZLevelError :[UIColor grayColor],
-//                                              kRZLevelInfo : [UIColor blueColor],
-//                                              kRZLevelWarning : [UIColor orangeColor],
-//                                              kRZLevelPositive : [UIColor greenColor]
-//                                              }];
-//    };
+
+- (void)setupCustomMessagingWindow
+{
+    self.errorWindow = [RZMessagingWindow messagingWindow];
+    self.errorWindow.messageViewControllerClass = [RZTCustomViewController class];
+    
+    [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
+    [RZErrorMessenger setDefaultErrorDomain:[NSString stringWithFormat:@"%@.error",[[NSBundle mainBundle] bundleIdentifier]]];
+    
+}
+
 @end
