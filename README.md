@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/RaisinToast.svg?style=flat)](http://cocoadocs.org/docsets/RaisinToast)
 [![Platform](https://img.shields.io/cocoapods/p/RaisinToast.svg?style=flat)](http://cocoadocs.org/docsets/RaisinToast)
 
-RaisinToast provides a messaging window layer for your app, ideal for presenting errors, warnings and feedback throughout your app.
+RaisinToast provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app.
 
 ## Installation
 
