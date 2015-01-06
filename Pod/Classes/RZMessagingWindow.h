@@ -20,47 +20,51 @@ typedef NS_ENUM(u_int8_t, RZMessageStrength)
      *  A weak error message.  This is one that displays and as soon as a user taps anywhere
      *  it dismisses.
      */
-    kRZMessageStrengthWeak,
+    kRZMessageStrengthWeakAutoDismiss,
     /**
      *  A strong error message.  This is displayed and blacks out the screen behind it.  The
      *  user must click the message to dismiss
      */
-    kRZMessageStrengthStrong,
+    kRZMessageStrengthStrongAutoDismiss,
     /**
      *  An error message that will display but not block any touches.  The presenter
      *  of the error message must dismiss the error when they are done.
      */
-    kRZMessageStrengthWeakUserControlled,
+    kRZMessageStrengthWeak,
     /**
      *  An error message that blocks user touches and doesn't dismiss until the presenter of
      *  the error tells it to dismiss.
      */
-    kRZMessageStrengthStrongUserControlled
+    kRZMessageStrengthStrong
 };
 
-typedef UIViewController *(^RZMessagingWindowViewCreationBlock)(NSError *configuration);
 
+#warning REDO Comment
 /**
  *  ViewController configuration block.  Given a viewController of the passed in class and allows the caller
  *  to configure its layout and other properties based off of an NSError object.
  *
  *  @param messageViewController The newly created Viewcontroller.  Will be added to the container view already.
- *  @param containerView         The container for the messageViewController.
+
  *  @param configuration         The NSError object that is used to configure the message viewController.
  */
-typedef void(^RZMessagingWindowViewControllerBlock)(UIViewController *messageViewController, UIView *containerView, NSError *configuration);
+typedef void(^RZMessagingWindowViewControllerBlock)(UIViewController *messageViewController, NSError *configuration, RZMessageStrength strength);
 
+#warning DEFINE
 typedef void(^RZMessagingWindowAnimationCompletionBlock)(BOOL finished);
 
-/**
- *  An animation block for presenting or dismissing a message View controller.
- *
- *  @param messageVC     The viewController that is going to be presented/dismissed.
- *  @param containerView The container view that the viewcontroller lives inside.
- */
-typedef void(^RZMessagingWindowAnimationBlock)(UIViewController *messageVC, UIView *containerView, RZMessagingWindowAnimationCompletionBlock completion);
-
 #pragma mark - RZMessagingWindow
+
+#warning DEFINE
+@protocol RZMessagingViewController <NSObject>
+- (void)rz_configureWithError:(NSError *)error;
+- (void)rz_presentAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion;
+- (void)rz_dismissAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion;
+
+@optional
+- (void)rz_configureLayoutForContainer:(UIView *)container;
+
+@end
 
 /**
  *  A UIWindow subclass used to message information to the users of your app.  This currently
@@ -74,10 +78,6 @@ typedef void(^RZMessagingWindowAnimationBlock)(UIViewController *messageVC, UIVi
  *  RZMessagingWindowViewControllerBlock for more info.
  */
 @property (copy, nonatomic) RZMessagingWindowViewControllerBlock viewConfigurationBlock;
-
-@property (copy, nonatomic) RZMessagingWindowViewCreationBlock viewCreationBlock;
-@property (copy, nonatomic) RZMessagingWindowAnimationBlock viewPresentationAnimationBlock;
-@property (copy, nonatomic) RZMessagingWindowAnimationBlock viewDismissalAnimationBlock;
 
 /**
  *  Set this to tell the window what class of ViewController it should initialize.  A standard 
@@ -103,6 +103,9 @@ typedef void(^RZMessagingWindowAnimationBlock)(UIViewController *messageVC, UIVi
  *  @return The RZMessagingWindow instance.
  */
 + (instancetype)messagingWindow;
+
+#warning DEFINE
++ (instancetype)defaultMessagingWindow;
 
 /**
  *  Shows a message from an NSError object.  This object will be passed to the messageVC that you

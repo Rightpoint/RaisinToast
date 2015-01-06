@@ -75,7 +75,6 @@ static NSString *kRZDefaultErrorMessageNoNetwork      = @"You are not connected 
 + (NSError *)displayError:(NSError *)error withStrength:(RZMessageStrength)strength level:(RZErrorMessengerLevel)level animated:(BOOL)animated
 {
     NSAssert([RZErrorMessenger getDefaultMessagingWindow] != nil, @"You must call setDefaultMessagingWindow with a valid RZMessagingWindow to display an error, typically in your app delegate when you configure the RZMessagingWindow view creation, configuration, preesntation and dismissal blocks.");
-    error = [self performErrorValidationOnError:error];
     error = [error rz_updateLevelOnErrorWithLevel:level];
     [[RZErrorMessenger getDefaultMessagingWindow] showMessageFromError:error strength:strength animated:animated];
     return error;
@@ -123,14 +122,6 @@ static NSString *kRZDefaultErrorMessageNoNetwork      = @"You are not connected 
 
 
 #pragma mark - Private Methods
-
-+ (NSError *)performErrorValidationOnError:(NSError *)error
-{
-    if (error.code == NSURLErrorNotConnectedToInternet) {
-        error = [error rz_updateLocalizedRecoverySuggestion:kRZDefaultErrorMessageNoNetwork];
-    }
-    return error;
-}
 
 + (NSString *)getDefaultErrorDomain
 {

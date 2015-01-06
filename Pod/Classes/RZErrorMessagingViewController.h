@@ -7,19 +7,8 @@
 //
 
 @import UIKit;
+#import <RaisinToast/RZMessagingWindow.h>
 
-@class BHError;
-
-OBJC_EXTERN CGFloat const kRZErrorMessagingViewVisibleHeight;
-OBJC_EXTERN CGFloat const kRZErrorMessagingViewVerticalPadding;
-
-@interface RZErrorMessagingViewController : UIViewController
-
-
-- (void)updateWithError:(NSError *)error;
-
-- (void)createConstraintsWithContainer:(UIView *)container;
-
-- (void)updateViewForDisplay:(BOOL)visible completion:(void (^)(BOOL finished))completion;
+@interface RZErrorMessagingViewController : UIViewController <RZMessagingViewController>
 
 @end

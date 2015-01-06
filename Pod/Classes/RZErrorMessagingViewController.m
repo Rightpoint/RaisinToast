@@ -9,11 +9,14 @@
 #import "RZErrorMessagingViewController.h"
 #import "RZErrorMessenger.h"
 
-#import <RZUtils/NSString+RZStringSize.h>
-#import <RZUtils/UIView+RZAutoLayoutHelpers.h>
 
-CGFloat const kRZErrorMessagingViewVisibleHeight = 90.0f;
-CGFloat const kRZErrorMessagingViewVerticalPadding = 20.0f;
+NSString * const kRZLevelError       = @"RZLevelError";
+NSString * const kRZLevelInfo        = @"RZLevelInfo";
+NSString * const kRZLevelWarning     = @"RZLevelWarning";
+NSString * const kRZLevelPositive    = @"RZLevelPositive";
+
+static CGFloat const kErrorMessagingViewVisibleHeight = 90.0f;
+static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
 
 @interface RZErrorMessagingViewController ()
 
@@ -25,9 +28,24 @@ CGFloat const kRZErrorMessagingViewVerticalPadding = 20.0f;
 @property (weak, nonatomic) NSLayoutConstraint *heightConstraint;
 @property (weak, nonatomic) NSError *displayedError;
 
+@property (strong, nonatomic) NSDictionary *colorForLevelDictionary;
+@property (assign, nonatomic) CGFloat errorMessagingViewVisibleHeight;
+@property (assign, nonatomic) CGFloat errorMessagingViewVerticalPadding;
+
 @end
 
 @implementation RZErrorMessagingViewController
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if ( self ) {
+        self.colorForLevelDictionary = [self.class defaultColorDictionary];
+        self.errorMessagingViewVisibleHeight = kErrorMessagingViewVisibleHeight;
+        self.errorMessagingViewVerticalPadding = kErrorMessagingViewVerticalPadding;
+    }
+    return self;
+}
 
 #pragma mark - UIViewController methods
 
@@ -35,15 +53,16 @@ CGFloat const kRZErrorMessagingViewVerticalPadding = 20.0f;
 {
     // Since we are presented in a different window.  Rotation is handled a bit odd...  May make this better later though.
     CGFloat width = (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) ? self.view.superview.frame.size.width : self.view.superview.frame.size.height;
-    width -= 2 * kRZErrorMessagingViewVerticalPadding;
+    width -= 2 * _errorMessagingViewVerticalPadding;
     CGFloat newHeight = [self updatedHeightWithWidth:width];
     self.heightConstraint.constant = newHeight;
-    self.bottomAnimationConstraint.constant = newHeight - kRZErrorMessagingViewVerticalPadding;
+    self.bottomAnimationConstraint.constant = newHeight - _errorMessagingViewVerticalPadding;
     [self.view layoutIfNeeded];
 }
 
-#pragma mark - Public Methods
-- (void)updateWithError:(NSError *)error
+#pragma mark - RZMessagingViewController Protocol
+
+- (void)rz_configureWithError:(NSError *)error
 {
     self.displayedError = error;
 
@@ -52,19 +71,19 @@ CGFloat const kRZErrorMessagingViewVerticalPadding = 20.0f;
     
     switch ( [error rz_levelFromError] ) {
         case kRZErrorMessengerLevelError:
-            self.errorContainer.backgroundColor = [UIColor colorWithRed:191.0f/255.0f green:56.0f/255.0f blue:54.0f/255.0f alpha:1.0f];
+            self.errorContainer.backgroundColor = self.colorForLevelDictionary[kRZLevelError];
             break;
         case kRZErrorMessengerLevelInfo:
-            self.errorContainer.backgroundColor = [UIColor colorWithRed:66.0f/255.0f green:151.0f/255.0f blue:237.0f/255.0f alpha:1.0f];
+            self.errorContainer.backgroundColor = self.colorForLevelDictionary[kRZLevelInfo];
             break;
         case kRZErrorMessengerLevelWarning:
-            self.errorContainer.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:172.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
+            self.errorContainer.backgroundColor = self.colorForLevelDictionary[kRZLevelWarning];
             break;
         case kRZErrorMessengerLevelPositive:
-            self.errorContainer.backgroundColor = [UIColor colorWithRed:0.0f/255.0f green:172.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
+            self.errorContainer.backgroundColor = self.colorForLevelDictionary[kRZLevelPositive];
             break;
         default:
-            self.errorContainer.backgroundColor = [UIColor colorWithRed:66.0f/255.0f green:151.0f/255.0f blue:237.0f/255.0f alpha:1.0f];
+            self.errorContainer.backgroundColor = self.colorForLevelDictionary[kRZLevelInfo];
             break;
     }
     CGFloat updatedHeight = [self updatedHeight];
@@ -72,12 +91,20 @@ CGFloat const kRZErrorMessagingViewVerticalPadding = 20.0f;
     [self.view layoutIfNeeded];
 }
 
-- (void)createConstraintsWithContainer:(UIView *)container
+- (void)rz_configureLayoutForContainer:(UIView *)container
 {
     self.view.translatesAutoresizingMaskIntoConstraints = NO;
     // Setup all the needed constraints for the view.
-    self.heightConstraint = [self.view rz_pinHeightTo:kRZErrorMessagingViewVisibleHeight];
-    
+    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.view
+                                                         attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:nil
+                                                         attribute:NSLayoutAttributeNotAnAttribute
+                                                        multiplier:1.0f
+                                                          constant:self.errorMessagingViewVisibleHeight];
+    [container addConstraint:heightConstraint];
+    self.heightConstraint = heightConstraint;
+
     NSLayoutConstraint *errorBottomConstraint = [NSLayoutConstraint constraintWithItem:self.view
                                                                              attribute:NSLayoutAttributeBottom
                                                                              relatedBy:NSLayoutRelationEqual
@@ -87,20 +114,37 @@ CGFloat const kRZErrorMessagingViewVerticalPadding = 20.0f;
                                                                               constant:0.0f];
     [container addConstraint:errorBottomConstraint];
     self.bottomAnimationConstraint = errorBottomConstraint;
-    [self.view rz_pinLeftSpaceToSuperviewWithPadding:0.0f];
-    [self.view rz_pinRightSpaceToSuperviewWithPadding:0.0f];
+    
+    NSLayoutConstraint *leftSpaceConstraint = [NSLayoutConstraint constraintWithItem:self.view
+                                                         attribute:NSLayoutAttributeLeft
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.view.superview
+                                                         attribute:NSLayoutAttributeLeft
+                                                        multiplier:1.0f
+                                                          constant:0.0f];
+    [self.view.superview addConstraint:leftSpaceConstraint];
+    
+    NSLayoutConstraint *rightSpaceConstraint = [NSLayoutConstraint constraintWithItem:self.view
+                                                         attribute:NSLayoutAttributeRight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.view.superview
+                                                         attribute:NSLayoutAttributeRight
+                                                        multiplier:1.0f
+                                                          constant:-0.0f];
+    [self.view.superview addConstraint:rightSpaceConstraint];
+
     self.view.alpha = 0.0f;
     [self.view setNeedsLayout];
     
 }
 
-- (void)updateViewForDisplay:(BOOL)visible completion:(void (^)(BOOL finished))completion
+- (void)rz_presentAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion
 {
-    if (visible) {
-        CGFloat updatedHeight = [self updatedHeight];
-        self.bottomAnimationConstraint.constant = updatedHeight - kRZErrorMessagingViewVerticalPadding;
-        self.heightConstraint.constant = updatedHeight;
-        [self.view setNeedsLayout];
+    CGFloat updatedHeight = [self updatedHeight];
+    self.bottomAnimationConstraint.constant = updatedHeight - self.errorMessagingViewVerticalPadding;
+    self.heightConstraint.constant = updatedHeight;
+    [self.view setNeedsLayout];
+    if ( animated ) {
         [UIView animateWithDuration:0.7f delay:0.0f usingSpringWithDamping:0.65f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self.view.superview layoutIfNeeded];
             self.view.alpha = 1.0f;
@@ -111,7 +155,18 @@ CGFloat const kRZErrorMessagingViewVerticalPadding = 20.0f;
         }];
     }
     else {
-        self.bottomAnimationConstraint.constant = 0.0f;
+        [self.view.superview layoutIfNeeded];
+        self.view.alpha = 1.0f;
+        if (completion != nil) {
+            completion(YES);
+        }
+    }
+}
+
+- (void)rz_dismissAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion
+{
+    self.bottomAnimationConstraint.constant = 0.0f;
+    if ( animated ) {
         [UIView animateWithDuration:0.7f delay:0.0f usingSpringWithDamping:0.65f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self.view.superview layoutIfNeeded];
             self.view.alpha = 0.0f;
@@ -121,19 +176,50 @@ CGFloat const kRZErrorMessagingViewVerticalPadding = 20.0f;
             }
         }];
     }
+    else {
+        [self.view.superview layoutIfNeeded];
+        self.view.alpha = 0.0f;
+        if (completion != nil) {
+            completion(YES);
+        }
+    }
 }
 
 #pragma mark - Private Methods
++ (NSDictionary *)defaultColorDictionary
+{
+    static NSDictionary *colorDictionary = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        colorDictionary = @{
+                            kRZLevelError :[UIColor colorWithRed:191.0f/255.0f green:56.0f/255.0f blue:54.0f/255.0f alpha:1.0f],
+                            kRZLevelInfo : [UIColor colorWithRed:66.0f/255.0f green:151.0f/255.0f blue:237.0f/255.0f alpha:1.0f],
+                            kRZLevelWarning : [UIColor colorWithRed:255.0f/255.0f green:172.0f/255.0f blue:0.0f/255.0f alpha:1.0f],
+                            kRZLevelPositive : [UIColor colorWithRed:0.0f/255.0f green:172.0f/255.0f blue:0.0f/255.0f alpha:1.0f]
+                            };
+    });
+    return colorDictionary;
+}
 
 - (CGFloat)updatedHeight
 {
-    return [self updatedHeightWithWidth:(self.view.frame.size.width - (2 * kRZErrorMessagingViewVerticalPadding))];
+    return [self updatedHeightWithWidth:(self.view.frame.size.width - (2 * _errorMessagingViewVerticalPadding))];
 }
 
 - (CGFloat)updatedHeightWithWidth:(CGFloat)width
 {
-    CGFloat height = kRZErrorMessagingViewVisibleHeight;
-    height += [self.detailLabel.text rz_sizeWithFont:self.detailLabel.font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)].height;
+    CGFloat height = _errorMessagingViewVisibleHeight;
+    
+    
+    
+    NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:self.detailLabel.text attributes:@{ NSFontAttributeName : self.detailLabel.font }];
+    CGRect rect = [attributedText boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
+                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                               context:nil];
+    
+    CGSize size = rect.size;
+    
+    height += size.height;
     return height;
 }
 

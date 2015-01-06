@@ -7,6 +7,7 @@
 //
 
 #import "RZMessagingWindow.h"
+#import <RaisinToast/RZErrorMessagingViewController.h>
 
 static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
@@ -26,7 +27,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 @property (strong, nonatomic) NSError *error;
 @property (assign, nonatomic) BOOL animated;
 @property (assign, nonatomic) RZMessageStrength strength;
-@property (weak, nonatomic) UIViewController *messageViewController;
+@property (weak, nonatomic) UIViewController <RZMessagingViewController> *messageViewController;
 
 + (instancetype)messageFromError:(NSError *)error animated:(BOOL)animated messageStrength:(RZMessageStrength)strength;
 
@@ -80,12 +81,20 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
     return messageWindow;
 }
 
++ (instancetype)defaultMessagingWindow
+{
+    RZMessagingWindow *messageWindow = [RZMessagingWindow messagingWindow];
+    messageWindow.messageViewControllerClass = [RZErrorMessagingViewController class];
+    return messageWindow;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if ( self ) {
         self.errorsToDisplay = [NSMutableArray array];
         self.opaque = NO;
+        
     }
     return self;
 }
@@ -108,7 +117,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-    // If we arn't presenting any errors, just pass the touch through to the app.
+    // If we aren't presenting any errors, just pass the touch through to the app.
     if ( self.errorsToDisplay.count == 0 ) {
         return nil;
     }
@@ -118,21 +127,21 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
         
         UIView *result = [super hitTest:point withEvent:event];
         switch ( strength ) {
-            case kRZMessageStrengthWeak:
+            case kRZMessageStrengthWeakAutoDismiss:
                 [self hideMessage:nil animated:displayedMessage.animated];
+                if ( [result isKindOfClass:[RZErrorWindowPassThroughView class]] ) {
+                    result = nil;
+                }
+                break;
+            case kRZMessageStrengthStrongAutoDismiss:
+                [self hideMessage:nil animated:displayedMessage.animated];
+                break;
+            case kRZMessageStrengthWeak:
                 if ( [result isKindOfClass:[RZErrorWindowPassThroughView class]] ) {
                     result = nil;
                 }
                 break;
             case kRZMessageStrengthStrong:
-                [self hideMessage:nil animated:displayedMessage.animated];
-                break;
-            case kRZMessageStrengthWeakUserControlled:
-                if ( [result isKindOfClass:[RZErrorWindowPassThroughView class]] ) {
-                    result = nil;
-                }
-                break;
-            case kRZMessageStrengthStrongUserControlled:
                 // nop
                 break;
         }
@@ -159,12 +168,12 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 - (void)hideMessage:(NSError *)error animated:(BOOL)animated
 {
     if ( error == nil ) {
-        [self hideDisplayedError];
+        [self hideDisplayedErrorAnimated:animated force:NO];
     }
     else {
         NSInteger index = [self.errorsToDisplay indexOfObject:error];
         if ( index == 1 ) {
-            [self hideDisplayedError];
+            [self hideDisplayedErrorAnimated:animated force:NO];
         } else {
             [self.errorsToDisplay removeObject:error];
         }
@@ -173,10 +182,9 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 - (void)hideAllMessagesAnimated:(BOOL)animated
 {
-    //!TODO:  Make Animated property take affect here.
     if ( self.errorsToDisplay.count > 0 ) {
         [self.errorsToDisplay removeObjectsInRange:NSMakeRange(1, self.errorsToDisplay.count - 1)];
-        [self forceHideDisplayedError];
+        [self hideDisplayedErrorAnimated:animated force:YES];
     }
 }
 
@@ -196,30 +204,23 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
     if ( !self.errorPresented && !self.errorIsBeingPresented ) {
         self.errorIsBeingPresented = YES;
 
-        NSAssert(self.viewCreationBlock != nil, @"A view configuration block is required to present an error and must return a view controller.");
-        
-        UIViewController *messageVC = self.viewCreationBlock(message.error);
+        UIViewController <RZMessagingViewController> *messageVC = [[self.messageViewControllerClass alloc] init];
         [self.rootViewController addChildViewController:messageVC];
         [self.rootViewController.view addSubview:messageVC.view];
         [messageVC didMoveToParentViewController:self.rootViewController];
         message.messageViewController = messageVC;
-        
-        if ( self.viewConfigurationBlock != nil ) {
-            self.viewConfigurationBlock(messageVC, self.rootViewController.view, message.error);
+        if ( [messageVC respondsToSelector:@selector(rz_configureLayoutForContainer:)] ) {
+            [messageVC rz_configureLayoutForContainer:self.rootViewController.view];
         }
-        
+        [messageVC rz_configureWithError:message.error];
 
-        if ( message.animated && self.viewPresentationAnimationBlock != nil ) {
-            self.viewPresentationAnimationBlock(messageVC, self.rootViewController.view, ^(BOOL finished) {
-                self.errorPresented = YES;
-                self.errorIsBeingPresented = NO;
-            });
-        }
-        else {
+
+        [messageVC rz_presentAnimated:message.animated completion:^(BOOL finished) {
             self.errorPresented = YES;
             self.errorIsBeingPresented = NO;
-        }
-        if (message.strength == kRZMessageStrengthStrong || message.strength == kRZMessageStrengthStrongUserControlled) {
+        }];
+
+        if ( message.strength == kRZMessageStrengthStrong || message.strength == kRZMessageStrengthStrongAutoDismiss ) {
             [UIView animateWithDuration:((message.animated) ? RZErrorWindowBlackoutAnimationInterval : 0.0f) animations:^{
                 self.backgroundInterceptView.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.5f];
             }];
@@ -228,26 +229,20 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
     }
 }
 
-- (void)hideDisplayedError
+- (void)hideDisplayedErrorAnimated:(BOOL)animated force:(BOOL)force
 {
-    if ( self.errorPresented == YES ) {
+    if ( self.errorPresented || (force && self.errorIsBeingPresented) ) {
         RZMessage *message = [self.errorsToDisplay firstObject];
-        if ( self.viewDismissalAnimationBlock != nil && message.animated ) {
-            self.errorIsBeingDismissed = YES;
-            self.viewDismissalAnimationBlock(message.messageViewController, self.rootViewController.view, ^(BOOL finished) {
-                [message.messageViewController willMoveToParentViewController:nil];
-                [message.messageViewController.view removeFromSuperview];
-                [message.messageViewController removeFromParentViewController];
-                self.errorIsBeingDismissed = NO;
-            });
-        }
-        else {
+        self.errorIsBeingDismissed = YES;
+        [message.messageViewController rz_dismissAnimated:message.animated completion:^(BOOL finished) {
             [message.messageViewController willMoveToParentViewController:nil];
             [message.messageViewController.view removeFromSuperview];
             [message.messageViewController removeFromParentViewController];
-        }
-        if (message.strength == kRZMessageStrengthStrong || message.strength == kRZMessageStrengthStrongUserControlled) {
-            [UIView animateWithDuration:((message.animated) ? RZErrorWindowBlackoutAnimationInterval : 0.0f) animations:^{
+            self.errorIsBeingDismissed = NO;
+        }];
+
+        if (message.strength == kRZMessageStrengthStrong || message.strength == kRZMessageStrengthStrongAutoDismiss) {
+            [UIView animateWithDuration:( animated ? RZErrorWindowBlackoutAnimationInterval : 0.0f) animations:^{
                 self.backgroundInterceptView.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.0f];
             }];
         }
@@ -257,39 +252,6 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
         if ( self.errorsToDisplay.count > 0 ) {
             [self showMessage:[self.errorsToDisplay firstObject]];
         }
-    }
-}
-
-- (void)forceHideDisplayedError
-{
-    if ( self.errorPresented || self.errorIsBeingPresented ) {
-        RZMessage *message = [self.errorsToDisplay firstObject];
-        if ( self.viewDismissalAnimationBlock != nil && message.animated ) {
-            self.errorIsBeingDismissed = YES;
-            self.viewDismissalAnimationBlock(message.messageViewController, self.rootViewController.view, ^(BOOL finished) {
-                [message.messageViewController willMoveToParentViewController:nil];
-                [message.messageViewController.view removeFromSuperview];
-                [message.messageViewController removeFromParentViewController];
-                self.errorIsBeingDismissed = NO;
-            });
-        }
-        else {
-            [message.messageViewController willMoveToParentViewController:nil];
-            [message.messageViewController.view removeFromSuperview];
-            [message.messageViewController removeFromParentViewController];
-        }
-        if (message.strength == kRZMessageStrengthStrong || message.strength == kRZMessageStrengthStrongUserControlled) {
-            [UIView animateWithDuration:((message.animated) ? RZErrorWindowBlackoutAnimationInterval : 0.0f) animations:^{
-                self.backgroundInterceptView.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.0f];
-            }];
-        }
-        
-        self.errorPresented = NO;
-        [self.errorsToDisplay removeObject:message];
-        if ( self.errorsToDisplay.count > 0 ) {
-            [self showMessage:[self.errorsToDisplay firstObject]];
-        }
-
     }
 }
 
