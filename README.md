@@ -5,11 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/RaisinToast.svg?style=flat)](http://cocoadocs.org/docsets/RaisinToast)
 [![Platform](https://img.shields.io/cocoapods/p/RaisinToast.svg?style=flat)](http://cocoadocs.org/docsets/RaisinToast)
 
-## Usage
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
 
 ## Installation
 
@@ -87,7 +83,23 @@ Implement protocol RZMessagingViewController
 - (void)rz_dismissAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion;
 ```
 
-## Demo 
+## Demo Project
+
+A demo project is available in the Example directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running
+
+    pod try RaisinToast
+
+Alternatively, the demo can be configured by running the following commands from the root project directory.
+
+    cd Example
+    pod install
+
+Then, open `RaisinToast.xcworkspace` and check out the demo!
+
+Note: The above steps assume that the CocoaPods gem is installed.
+
+If you do not have CocoaPods installed, follow the instructions [here](http://cocoapods.org/).
+
 
 ## Author
 
