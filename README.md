@@ -14,7 +14,25 @@ it, simply add the following line to your Podfile:
 
     pod "RaisinToast"
 
-## Configuration options
+
+## Demo Project
+
+A demo project is available in the Example directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running
+
+    pod try RaisinToast
+
+Alternatively, the demo can be configured by running the following commands from the root project directory.
+
+    cd Example
+    pod install
+
+Then, open `RaisinToast.xcworkspace` and check out the demo!
+
+Note: The above steps assume that the CocoaPods gem is installed.
+
+If you do not have CocoaPods installed, follow the instructions [here](http://cocoapods.org/).
+
+## Overview
 ### Out of the box configuration
 
 In app delegate add to imports:
@@ -34,9 +52,9 @@ In implementation add private method:
 ```objc
 - (void)setupMessagingWindow
 {
-    self.errorWindow = [RZMessagingWindow defaultMessagingWindow];
-    [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
-    [RZErrorMessenger setDefaultErrorDomain:[NSString stringWithFormat:@"%@.error",[[NSBundle mainBundle] bundleIdentifier]]];
+self.errorWindow = [RZMessagingWindow defaultMessagingWindow];
+[RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
+[RZErrorMessenger setDefaultErrorDomain:[NSString stringWithFormat:@"%@.error",[[NSBundle mainBundle] bundleIdentifier]]];
 }
 ```
 
@@ -53,17 +71,17 @@ Override init and provide an alternative color definition for each level of erro
 ```objc
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if ( self ) {
-        self.colorForLevelDictionary = @{
-            kRZLevelError :[UIColor redColor],
-            kRZLevelInfo : [UIColor blueColor],
-            kRZLevelWarning : [UIColor orangeColor],
-            kRZLevelPositive : [UIColor greenColor]
-        };
-        self.errorMessagingViewVerticalPadding = -200.0f;
-    }
-    return self;
+self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+if ( self ) {
+self.colorForLevelDictionary = @{
+kRZLevelError :[UIColor redColor],
+kRZLevelInfo : [UIColor blueColor],
+kRZLevelWarning : [UIColor orangeColor],
+kRZLevelPositive : [UIColor greenColor]
+};
+self.errorMessagingViewVerticalPadding = -200.0f;
+}
+return self;
 }
 ```
 
@@ -82,24 +100,6 @@ Implement protocol RZMessagingViewController
 - (void)rz_presentAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion;
 - (void)rz_dismissAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion;
 ```
-
-## Demo Project
-
-A demo project is available in the Example directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running
-
-    pod try RaisinToast
-
-Alternatively, the demo can be configured by running the following commands from the root project directory.
-
-    cd Example
-    pod install
-
-Then, open `RaisinToast.xcworkspace` and check out the demo!
-
-Note: The above steps assume that the CocoaPods gem is installed.
-
-If you do not have CocoaPods installed, follow the instructions [here](http://cocoapods.org/).
-
 
 ## Author
 
