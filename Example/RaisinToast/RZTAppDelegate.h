@@ -10,9 +10,18 @@
 
 @class RZMessagingWindow;
 
+typedef NS_ENUM(u_int8_t, RZTWindowType) {
+    kRZTWindowTypeDefault,
+    RZTWindowTypeSubclassedForStyle,
+    RZTWindowTypeSubclassedWithCustomXib,
+    RZTWindowTypeCustomAlertViewVC
+};
+
 @interface RZTAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) RZMessagingWindow *errorWindow;
+
+- (void)reconfigureMessagingWindowForDemoPurposes:(RZTWindowType)windowType;
 
 @end

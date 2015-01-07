@@ -9,7 +9,9 @@
 #import "RZTAppDelegate.h"
 #import <RaisinToast/RZMessagingWindow.h>
 #import <RaisinToast/RZErrorMessenger.h>
-#import "RZTCustomViewController.h"
+#import "RZTSubclassedErrorMessagingViewController.h"
+#import "RZTSubclassNewXibErrorViewController.h"
+#import "RZTCustomErrorViewController.h"
 
 @implementation RZTAppDelegate
 
@@ -17,29 +19,32 @@
 {
     // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
-    [self setupDefaultMessagingWindow];
-//    [self setupCustomMessagingWindow];
+    self.errorWindow = [RZMessagingWindow messagingWindow];
+    [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
+    [RZErrorMessenger setDefaultErrorDomain:[NSString stringWithFormat:@"%@.error",[[NSBundle mainBundle] bundleIdentifier]]];
+
     return YES;
 }
 
-#pragma mark RaisinToast AppDelegate code
-- (void)setupDefaultMessagingWindow
+#pragma mark - Public
+- (void)reconfigureMessagingWindowForDemoPurposes:(RZTWindowType)windowType
 {
-    self.errorWindow = [RZMessagingWindow defaultMessagingWindow];
-    
-    [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
-    [RZErrorMessenger setDefaultErrorDomain:[NSString stringWithFormat:@"%@.error",[[NSBundle mainBundle] bundleIdentifier]]];
-    
-}
-
-- (void)setupCustomMessagingWindow
-{
-    self.errorWindow = [RZMessagingWindow messagingWindow];
-    self.errorWindow.messageViewControllerClass = [RZTCustomViewController class];
-    
-    [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
-    [RZErrorMessenger setDefaultErrorDomain:[NSString stringWithFormat:@"%@.error",[[NSBundle mainBundle] bundleIdentifier]]];
-    
+    switch ( windowType ) {
+        case kRZTWindowTypeDefault:
+            self.errorWindow.messageViewControllerClass = [RZErrorMessagingViewController class];
+            break;
+        case RZTWindowTypeSubclassedForStyle:
+            self.errorWindow.messageViewControllerClass = [RZTSubclassedErrorMessagingViewController class];
+            break;
+        case RZTWindowTypeSubclassedWithCustomXib:
+            self.errorWindow.messageViewControllerClass = [RZTSubclassNewXibErrorViewController class];
+            break;
+        case RZTWindowTypeCustomAlertViewVC:
+            self.errorWindow.messageViewControllerClass = [RZTCustomErrorViewController class];
+            break;
+        default:
+            break;
+    }
 }
 
 @end

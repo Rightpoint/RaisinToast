@@ -1,14 +1,14 @@
 //
-//  RZTCustomViewController.m
+//  RZTSubclassedErrorMessagingViewController.m
 //  
 //
 //  Created by Adam Howitt on 1/6/15.
 //
 //
 
-#import "RZTCustomViewController.h"
+#import "RZTSubclassedErrorMessagingViewController.h"
 
-@implementation RZTCustomViewController
+@implementation RZTSubclassedErrorMessagingViewController
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

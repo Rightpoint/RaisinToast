@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RZTViewController : UIViewController
+@interface RZTViewController : UITableViewController
 
 @end
