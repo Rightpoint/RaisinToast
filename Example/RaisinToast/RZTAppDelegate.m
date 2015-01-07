@@ -18,10 +18,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    [self.window makeKeyAndVisible];
     self.errorWindow = [RZMessagingWindow messagingWindow];
     [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
     [RZErrorMessenger setDefaultErrorDomain:[NSString stringWithFormat:@"%@.error",[[NSBundle mainBundle] bundleIdentifier]]];
+    [self.window makeKeyAndVisible];
 
     return YES;
 }

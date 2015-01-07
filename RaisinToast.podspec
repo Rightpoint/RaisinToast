@@ -15,7 +15,6 @@ Pod::Spec.new do |s|
                        Provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app.
                        DESC
   s.homepage         = "https://github.com/Raizlabs/RaisinToast"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "adamhrz" => "adam.howitt@raizlabs.com","arrouse" => "alex@raizlabs.com" }
   s.source           = { :git => "https://github.com/Raizlabs/RaisinToast.git", :tag => s.version.to_s }
@@ -25,9 +24,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*.[hm]'
-  # s.resource_bundles = {
-  #   'RaisinToast' => ['Pod/Assets/*.png']
-  # }
   s.resources = "Pod/Assets/*.{xib}"
 
   s.public_header_files = 'Pod/Classes/**/*.h'

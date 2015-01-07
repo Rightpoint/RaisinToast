@@ -23,8 +23,6 @@
     if ( self ) {
         self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         self.view.alpha = 0.5f;
-        self.error = nil;
-        self.alertView = nil;
     }
     return self;
 }
@@ -48,7 +46,7 @@
 
 - (void)rz_dismissAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion
 {
-    [self.alertView dismissWithClickedButtonIndex:0 animated:animated];
+    [self.alertView dismissWithClickedButtonIndex:self.alertView.cancelButtonIndex animated:animated];
     self.bottomAnimationConstraint.constant = 0.0f;
     self.view.alpha = 0.0f;
     self.view.hidden = YES;

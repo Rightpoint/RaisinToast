@@ -4,7 +4,4 @@ target 'RaisinToast', :exclusive => true do
   pod "RaisinToast", :path => "../"
 end
 
-target 'Tests', :exclusive => true do
-  pod "RaisinToast", :path => "../"
-
 end
