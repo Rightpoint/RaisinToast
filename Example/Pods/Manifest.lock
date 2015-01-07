@@ -1,9 +1,5 @@
 PODS:
-  - RaisinToast (0.1.0):
-    - RZUtils/Categories/NSString (~> 2.4)
-    - RZUtils/Categories/UIView (~> 2.4)
-  - RZUtils/Categories/NSString (2.4.0)
-  - RZUtils/Categories/UIView (2.4.0)
+  - RaisinToast (1.0.0)
 
 DEPENDENCIES:
   - RaisinToast (from `../`)
@@ -13,7 +9,6 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  RaisinToast: 61907d87750f7a708b238744d71a9f9a045e2994
-  RZUtils: 51a759b13f362b49bdd426f96440c75249b16453
+  RaisinToast: f7eada3661808fe0cf34296f5945f26b5aa3c526
 
 COCOAPODS: 0.35.0

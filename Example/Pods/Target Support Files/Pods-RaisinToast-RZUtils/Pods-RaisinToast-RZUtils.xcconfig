@@ -1,1 +1,0 @@
-PODS_RAISINTOAST_RZUTILS_OTHER_LDFLAGS = -framework "Foundation" -framework "UIKit"

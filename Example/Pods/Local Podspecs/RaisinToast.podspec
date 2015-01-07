@@ -9,13 +9,10 @@
 
 Pod::Spec.new do |s|
   s.name             = "RaisinToast"
-  s.version          = "0.1.0"
+  s.version          = "1.0.0"
   s.summary          = "A UIWindow subclass used to message information to the users of your app."
   s.description      = <<-DESC
-                       An optional longer description of RaisinToast
-
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
+                       Provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app.
                        DESC
   s.homepage         = "https://github.com/Raizlabs/RaisinToast"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
@@ -24,7 +21,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/Raizlabs/RaisinToast.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/raizlabs'
 
-  s.platform     = :ios, '7.0'
+  s.platform     = :ios, '6.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*.[hm]'
@@ -35,6 +32,4 @@ Pod::Spec.new do |s|
 
   s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit'
-  s.dependency 'RZUtils/Categories/NSString', '~> 2.4'
-  s.dependency 'RZUtils/Categories/UIView', '~> 2.4'
 end
