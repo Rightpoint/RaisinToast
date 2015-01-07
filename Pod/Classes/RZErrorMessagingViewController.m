@@ -143,7 +143,7 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
             [self.view.superview layoutIfNeeded];
             self.view.alpha = 1.0f;
         } completion:^(BOOL finished) {
-            if (completion != nil) {
+            if ( completion != nil ) {
                 completion(finished);
             }
         }];
@@ -151,7 +151,7 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
     else {
         [self.view.superview layoutIfNeeded];
         self.view.alpha = 1.0f;
-        if (completion != nil) {
+        if ( completion != nil ) {
             completion(YES);
         }
     }
@@ -165,7 +165,7 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
             [self.view.superview layoutIfNeeded];
             self.view.alpha = 0.0f;
         } completion:^(BOOL finished) {
-            if (completion != nil) {
+            if ( completion != nil ) {
                 completion(finished);
             }
         }];
@@ -173,7 +173,7 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
     else {
         [self.view.superview layoutIfNeeded];
         self.view.alpha = 0.0f;
-        if (completion != nil) {
+        if ( completion != nil ) {
             completion(YES);
         }
     }

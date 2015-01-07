@@ -41,7 +41,7 @@
     self.view.hidden = NO;
     [self.alertView show];
 
-    if (completion != nil) {
+    if ( completion != nil ) {
         completion(YES);
     }
 }
@@ -52,7 +52,7 @@
     self.bottomAnimationConstraint.constant = 0.0f;
     self.view.alpha = 0.0f;
     self.view.hidden = YES;
-    if (completion != nil) {
+    if ( completion != nil ) {
         completion(YES);
     }
 

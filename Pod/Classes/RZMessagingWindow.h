@@ -39,9 +39,9 @@ typedef NS_ENUM(u_int8_t, RZMessageStrength)
 };
 
 /**
- *  Completion block
+ *  Completion block type for getting a finished status when a UIView animation completes
  *
- *  @param finished <#finished description#>
+ *  @param finished BOOL indicating the animation is complete
  */
 typedef void(^RZMessagingWindowAnimationCompletionBlock)(BOOL finished);
 

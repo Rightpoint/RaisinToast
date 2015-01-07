@@ -101,7 +101,7 @@ static NSString *kRZDefaultErrorMessageNoNetwork      = @"You are not connected 
 
 + (NSError *)errorWithDisplayTitle:(NSString *)title detail:(NSString *)detail error:(NSError *)error
 {
-    if ( error == nil ){
+    if ( error == nil ) {
         error = [NSError errorWithDomain:[RZErrorMessenger getDefaultErrorDomain] code:999 userInfo:nil];
     }
 
@@ -160,7 +160,7 @@ static NSString * const kRZErrorMessengerErrorKeyLevel = @"RZErrorMessengerError
 {
     RZErrorMessengerLevel level = kRZErrorMessengerLevelError;
     NSNumber *errorValue = self.userInfo[kRZErrorMessengerErrorKeyLevel];
-    if (errorValue != nil) {
+    if ( errorValue != nil ) {
         level = [errorValue integerValue];
     }
     return level;
