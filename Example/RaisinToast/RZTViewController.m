@@ -48,6 +48,7 @@
     
     NSError *myError = [RZErrorMessenger errorWithDisplayTitle:selectedMessage[@"author"] detail:selectedMessage[@"quote"] error:nil];
     [RZErrorMessenger displayError:myError withStrength:messageStrength level:level animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
 

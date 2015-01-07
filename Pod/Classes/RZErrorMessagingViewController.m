@@ -21,8 +21,6 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
 @interface RZErrorMessagingViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *errorContainer;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 
 @property (weak, nonatomic) NSLayoutConstraint *bottomAnimationConstraint;
 @property (weak, nonatomic) NSLayoutConstraint *heightConstraint;
@@ -199,14 +197,12 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
 
 - (CGFloat)updatedHeight
 {
-    return [self updatedHeightWithWidth:(self.view.frame.size.width - (2 * _errorMessagingViewVerticalPadding))];
+    return [self updatedHeightWithWidth:self.detailLabel.frame.size.width];
 }
 
 - (CGFloat)updatedHeightWithWidth:(CGFloat)width
 {
     CGFloat height = _errorMessagingViewVisibleHeight;
-    
-    
     
     NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:self.detailLabel.text attributes:@{ NSFontAttributeName : self.detailLabel.font }];
     CGRect rect = [attributedText boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)

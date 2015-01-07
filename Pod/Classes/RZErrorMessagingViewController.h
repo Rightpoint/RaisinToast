@@ -16,6 +16,9 @@ OBJC_EXPORT NSString * const kRZLevelPositive;
 
 @interface RZErrorMessagingViewController : UIViewController <RZMessagingViewController>
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
+
 @property (strong, nonatomic) NSDictionary *colorForLevelDictionary;
 @property (assign, nonatomic) CGFloat errorMessagingViewVisibleHeight;
 @property (assign, nonatomic) CGFloat errorMessagingViewVerticalPadding;
