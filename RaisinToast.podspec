@@ -12,10 +12,7 @@ Pod::Spec.new do |s|
   s.version          = "0.1.0"
   s.summary          = "A UIWindow subclass used to message information to the users of your app."
   s.description      = <<-DESC
-                       An optional longer description of RaisinToast
-
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
+                       Provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app.
                        DESC
   s.homepage         = "https://github.com/Raizlabs/RaisinToast"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"

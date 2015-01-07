@@ -38,24 +38,18 @@ typedef NS_ENUM(u_int8_t, RZMessageStrength)
     kRZMessageStrengthStrong
 };
 
-
-#warning REDO Comment
 /**
- *  ViewController configuration block.  Given a viewController of the passed in class and allows the caller
- *  to configure its layout and other properties based off of an NSError object.
+ *  Completion block
  *
- *  @param messageViewController The newly created Viewcontroller.  Will be added to the container view already.
-
- *  @param configuration         The NSError object that is used to configure the message viewController.
+ *  @param finished <#finished description#>
  */
-typedef void(^RZMessagingWindowViewControllerBlock)(UIViewController *messageViewController, NSError *configuration, RZMessageStrength strength);
-
-#warning DEFINE
 typedef void(^RZMessagingWindowAnimationCompletionBlock)(BOOL finished);
 
 #pragma mark - RZMessagingWindow
 
-#warning DEFINE
+/**
+ *  Protocol to support if using a custom view controller for presenting errors
+ */
 @protocol RZMessagingViewController <NSObject>
 - (void)rz_configureWithError:(NSError *)error;
 - (void)rz_presentAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion;
@@ -72,12 +66,6 @@ typedef void(^RZMessagingWindowAnimationCompletionBlock)(BOOL finished);
  *  If needed you can change the windowLevel to statusBar or Alert to always sit on top.
  */
 @interface RZMessagingWindow : UIWindow
-
-/**
- *  Used to get the ViewController and configure it in the main View.  See 
- *  RZMessagingWindowViewControllerBlock for more info.
- */
-@property (copy, nonatomic) RZMessagingWindowViewControllerBlock viewConfigurationBlock;
 
 /**
  *  Set this to tell the window what class of ViewController it should initialize.  A standard 
@@ -104,7 +92,11 @@ typedef void(^RZMessagingWindowAnimationCompletionBlock)(BOOL finished);
  */
 + (instancetype)messagingWindow;
 
-#warning DEFINE
+/**
+ *  Returns a messagingWindow configured with default colors and to use RZErrorMessagingViewController
+ *
+ *  @return fully configured RZMessagingWindow
+ */
 + (instancetype)defaultMessagingWindow;
 
 /**
