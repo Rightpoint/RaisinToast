@@ -3,5 +3,3 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'RaisinToast', :exclusive => true do
   pod "RaisinToast", :path => "../"
 end
-
-end

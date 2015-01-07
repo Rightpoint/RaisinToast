@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  RaisinToast: f7eada3661808fe0cf34296f5945f26b5aa3c526
+  RaisinToast: 6426fc605b2bb85696c695bd6e63e4909fa126d2
 
 COCOAPODS: 0.35.0
