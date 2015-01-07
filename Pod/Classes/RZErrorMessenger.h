@@ -39,20 +39,6 @@ typedef NS_ENUM(u_int8_t, RZErrorMessengerLevel) {
     kRZErrorMessengerLevelPositive
 };
 
-/**
- *  The Severity of the error message.  Controls the level the message is displayed in.
- */
-typedef NS_ENUM(u_int8_t, RZErrorMessageSeverity) {
-    /**
-     *  A severe error message.  Call when the contents need to be shown as an error
-     */
-    kRZErrorMessageSeveritySevere,
-    /**
-     *  a minor message.  Call when the contents are more of a notificaiton.
-     */
-    kRZErrorMessageSeverityMinor
-};
-
 @interface RZErrorMessenger : NSObject
 
 /**

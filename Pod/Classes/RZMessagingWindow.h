@@ -91,7 +91,7 @@ typedef void(^RZMessagingWindowAnimationCompletionBlock)(BOOL finished);
  *  Set this to tell the window what class of ViewController it should initialize.  A standard 
  *  [[Class alloc] init] will be called on it and added to the subview and the viewController.
  */
-@property (assign, nonatomic) Class messageViewControllerClass;
+@property (assign, nonatomic) Class <RZMessagingViewController> messageViewControllerClass;
 
 
 /**
@@ -168,7 +168,7 @@ typedef void(^RZMessagingWindowAnimationCompletionBlock)(BOOL finished);
 #pragma mark - RZRootMessagingViewController
 
 /**
- *  Root messaging View Controller.  Very simple implementation.
+ *  Root messaging View Controller. This is the class of the RZMessagingWindow root view controller. Very simple implementation.
  */
 @interface RZRootMessagingViewController : UIViewController
 @end

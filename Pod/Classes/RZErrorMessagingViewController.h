@@ -36,11 +36,29 @@ OBJC_EXPORT NSString * const kRZLevelPositive;
 
 @interface RZErrorMessagingViewController : UIViewController <RZMessagingViewController>
 
+/**
+ *  Title label appears at the top of the alert
+ */
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+
+/**
+ *  Detail label is the description of the alert/error
+ */
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 
-@property (strong, nonatomic) NSDictionary *colorForLevelDictionary;
+/**
+ *  A dictionary with values representing your custom color for kRZLevelError, kRZLevelInfo, kRZLevelWarning, kRZLevelPositive
+ */
+@property (copy, nonatomic) NSDictionary *colorForLevelDictionary;
+
+/**
+ *  The minimum height of the error messaging view
+ */
 @property (assign, nonatomic) CGFloat errorMessagingViewVisibleHeight;
+
+/**
+ *  The padding to apply to the top of the error messaging view. 20.0f places the view at the top of the screen.
+ */
 @property (assign, nonatomic) CGFloat errorMessagingViewVerticalPadding;
 
 @end
