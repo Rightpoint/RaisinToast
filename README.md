@@ -7,7 +7,7 @@
 
 RaisinToast provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app.
 
-Insert GIF here of demo project in action
+![RaisinToast in action](https://github.com/Raizlabs/RaisinToast/blob/feature/ahowitt/initial-refactor/Example/raisin-toast-14.gif "RaisinToast Demo Project")
 
 ## Installation
 
