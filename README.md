@@ -61,6 +61,12 @@ In implementation add private method:
 }
 ```
 
+Call this method in `- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions`
+
+```objc
+[self setupMessagingWindow];
+```
+
 ### Style override
 
 Subclass RZErrorMessagingViewController 
