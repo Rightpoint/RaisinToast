@@ -28,3 +28,4 @@ DerivedData
 #
 Pods/
 Example/Podfile.lock
+Example/RaisinToast.xcworkspace
