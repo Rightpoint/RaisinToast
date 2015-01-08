@@ -30,12 +30,24 @@
 #import "RZMessagingWindow.h"
 
 /**
- *  The level possibilities for the Error messages
+ *  The level possibilities for the Error messages.
  */
 typedef NS_ENUM(u_int8_t, RZErrorMessengerLevel) {
+    /**
+     *  An error, commonly red in color.
+     */
     kRZErrorMessengerLevelError,
+    /**
+     *  A warning, commonly orange in color.
+     */
     kRZErrorMessengerLevelWarning,
+    /**
+     *  An informational message, commonly blue in color.
+     */
     kRZErrorMessengerLevelInfo,
+    /**
+     *  Positive feedback, commonly green in color.
+     */
     kRZErrorMessengerLevelPositive
 };
 

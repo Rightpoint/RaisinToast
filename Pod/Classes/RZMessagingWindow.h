@@ -71,11 +71,35 @@ typedef void(^RZMessagingWindowAnimationCompletionBlock)(BOOL finished);
  *  Protocol to support if using a custom view controller for presenting errors
  */
 @protocol RZMessagingViewController <NSObject>
+/**
+ *  Typically responsible for, but not limited to, configuring the error UI based on the received error.
+ *
+ *  @param error An error containing information a localizedDescription, commonly used as a title and a localizedRecoverySuggestion commonly used as the body.  If provided, a userInfo dictionary key of RZErrorMessengerErrorKeyLevel will be used to set the background color from the colorForLevelDictionary based on the strength of the error (kRZLevelError, etc.)
+ */
 - (void)rz_configureWithError:(NSError *)error;
+
+/**
+ *  Sets up the appearance of the error message and configures the height of the error window to match the message.
+ *
+ *  @param animated   If error appearance is animated, responsible for providing the animation block and executing the completion block upon finishing.  Without animation, it simply presents the error and executes the completion block.
+ *  @param completion Any code to execute once presented. For example you could not use autodismiss property (dismisses on tap) and have the completion handler start a timer and dismiss the error window upon expiration.
+ */
 - (void)rz_presentAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion;
+
+/**
+ *  Sets up the constraints necessary to hide the error window and animate if desired.
+ *
+ *  @param animated   If animated, will configure the view animation and execute the completion block if provided. If not, it just calls the completion block.
+ *  @param completion Cleanup to do after an error is dismissed. For example you may want to pop out of a view controller or reload a network request.
+ */
 - (void)rz_dismissAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion;
 
 @optional
+/**
+ *  Establishes constraints necessary for programatically animating the appearance and disappearance of the error window.
+ *
+ *  @param container The error container object used by an element to attach constraints.
+ */
 - (void)rz_configureLayoutForContainer:(UIView *)container;
 
 @end
