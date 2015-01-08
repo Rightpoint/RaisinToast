@@ -16,6 +16,7 @@ it, simply add the following line to your Podfile:
 
     pod "RaisinToast"
 
+If you're not using CocoaPods copy the Classes/ and Assets/ folders into your project and follow the instructions under [overview](#overview).
 
 ## Demo Project
 
@@ -111,6 +112,10 @@ Implement protocol RZMessagingViewController
 - (void)rz_presentAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion;
 - (void)rz_dismissAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion;
 ```
+
+## Full Documentation
+
+For more comprehensive documentation, see the [CococaDocs](http://cocoadocs.org/docsets/RaisinToast) page.
 
 ## Author
 
