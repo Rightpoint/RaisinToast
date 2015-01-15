@@ -225,6 +225,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
         self.errorIsBeingPresented = YES;
 
         UIViewController <RZMessagingViewController> *messageVC = [[(Class)self.messageViewControllerClass alloc] init];
+
         [self.rootViewController addChildViewController:messageVC];
         [self.rootViewController.view addSubview:messageVC.view];
         [messageVC didMoveToParentViewController:self.rootViewController];
@@ -288,4 +289,84 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 #pragma mark - RZRootMessagingViewController
 
 @implementation RZRootMessagingViewController
+
+#pragma mark - Orientation method overrides
+
+-(BOOL)shouldAutorotate
+{
+    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    
+    if ( topViewController == self ) {
+        // If the top view controller is itself then do the same as
+        // default by returning YES.
+        return YES;
+    }
+    else {
+        return topViewController.shouldAutorotate;
+    }
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    
+    if ( topViewController == self ) {
+        // If the top view controller is itself then do the same as
+        // default by:
+        // 1)For iPhone, all except upside down
+        // 2)For iPad, all
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ) {
+            return UIInterfaceOrientationMaskAllButUpsideDown;
+        }
+        else {
+            return UIInterfaceOrientationMaskAll;
+        }        
+    }
+    else {
+        return topViewController.supportedInterfaceOrientations;
+    }
+}
+
+#pragma mark - Helper class methods
+
+/**
+ * Find the presented top view controller of the keyed UIWindow's root view controller.
+ *
+ * @return Returns the visible, presented view controller.
+ */
++ (UIViewController *)topViewController
+{
+    NSArray *windows = [UIApplication sharedApplication].windows;
+    UIWindow *firstWindow = [windows firstObject];
+    
+    return [RZRootMessagingViewController topViewControllerWithRootViewController:firstWindow.rootViewController];
+}
+
+/**
+ * Find the presented top view controller recursively starting from the view
+ * controller passed in the parameter.
+ *
+ * @param rootViewController View controller to start the recursive search
+ *
+ * @return Returns the visible, presented view controller, otherwise the view controller
+ *         where the search started. 
+ */
++ (UIViewController *)topViewControllerWithRootViewController:(UIViewController *)rootViewController {
+    if ( [rootViewController isKindOfClass:[UITabBarController class]] ) {
+        UITabBarController* tabBarController = (UITabBarController *)rootViewController;
+        return [RZRootMessagingViewController topViewControllerWithRootViewController:tabBarController.selectedViewController];
+    }
+    else if ( [rootViewController isKindOfClass:[UINavigationController class]] ) {
+        UINavigationController* navigationController = (UINavigationController *)rootViewController;
+        return [RZRootMessagingViewController topViewControllerWithRootViewController:navigationController.visibleViewController];
+    }
+    else if ( rootViewController.presentedViewController ) {
+        UIViewController* presentedViewController = rootViewController.presentedViewController;
+        return [RZRootMessagingViewController topViewControllerWithRootViewController:presentedViewController];
+    }
+    else {
+        return rootViewController;
+    }
+}
+
 @end
