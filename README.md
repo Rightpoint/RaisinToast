@@ -50,7 +50,7 @@ Add new property:
 @property (strong, nonatomic) RZMessagingWindow *errorWindow;
 ```
 
-In implementation add private method:
+In implementation add private method to create the default messaging window and provide an error domain for the messages based on the bundle ID:
 
 ```objc
 - (void)setupMessagingWindow
@@ -67,6 +67,42 @@ Call this method in `- (BOOL)application:(UIApplication *)application didFinishL
 ```objc
 [self setupMessagingWindow];
 ```
+
+To display your first notification anywhere in your app call the RZErrorMessenger class method:
+
+```objc
+[RZErrorMessenger displayErrorWithTitle:@"FYI" detail:@"This is a test of the emergency broadcast system"];
+```
+
+This presents the default info level notification for the provided title and detail.
+
+### Controlling the message level
+
+`RZErrorMessengerLevel` is an enum of four notification "themes".
+
+* kRZErrorMessengerLevelError - An error, commonly red in color.
+* kRZErrorMessengerLevelWarning - A warning, commonly orange in color.
+* kRZErrorMessengerLevelInfo - An informational message, commonly blue in color and the default level if not specified.
+* kRZErrorMessengerLevelPositive - Positive feedback, commonly green in color.
+
+To display a notification and specify the strength call displayErrorWithTitle:detail:level:
+
+```objc
+[RZErrorMessenger displayErrorWithTitle:@"Whoops!" detail:@"Something went horribly wrong and we accidentally cut off the wrong leg" level:kRZErrorMessengerLevelError];
+[RZErrorMessenger displayErrorWithTitle:@"Hang on a second" detail:@"Did you know this was happening?" level:kRZErrorMessengerLevelWarning];
+[RZErrorMessenger displayErrorWithTitle:@"FYI" detail:@"This is a test of the emergency broadcast system" level:kRZErrorMessengerLevelInfo];
+[RZErrorMessenger displayErrorWithTitle:@"Great job!" detail:@"You did it! You did the thing you were supposed to do!" level:kRZErrorMessengerLevelPositive];
+```
+
+### Controlling the message strength
+
+As you saw, message level controls the message appearance but RZMessageStrength lets you control whether the message is modal (strong) or acts lets touches pass through to the underlying UIWindow (weak).
+
+A second component to RZMessageStrength is whether the message will auto-dismiss on tap or remains on screen for you to handle the dismissal.  Most of the time the ..AutoDismiss RZMessageStrength options will be what you want.  
+
+The manual options are useful when you might want to perform additional processing e.g. UI edits or model updates before the message is dismissed.
+
+Another example is if you want to present a sequence of messages and then either peel them all off one at a time or dismiss them all with a single animation block.
 
 ### Style override
 
