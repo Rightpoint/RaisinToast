@@ -136,7 +136,7 @@ Override init and provide an alternative color definition for each level of erro
 }
 ```
 
-In app delegate use your custom class
+In the app delegate use your custom class
 
 ```objc
 self.errorWindow = [RZMessagingWindow messagingWindow];
@@ -144,12 +144,31 @@ self.errorWindow.messageViewControllerClass = [MyErrorMessagingViewController cl
 ```
 
 ### Custom View Controller 
-Implement protocol RZMessagingViewController
+Declare support for the protocol RZMessagingViewController in your header file:
+
+```objc
+@interface MyAmazingMessagingViewController : UIViewController <RZMessagingViewController>
+```
+
+Implement the required methods in your implementation file:
 
 ```objc
 - (void)rz_configureWithError:(NSError *)error;
 - (void)rz_presentAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion;
 - (void)rz_dismissAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion;
+```
+
+Optionally provide constraints for the error messaging view controller to control the positioning or appearance/disappearance:
+
+```objc 
+- (void)rz_configureLayoutForContainer:(UIView *)container;
+```
+
+In the app delegate use your custom class
+
+```objc
+self.errorWindow = [RZMessagingWindow messagingWindow];
+self.errorWindow.messageViewControllerClass = [MyAmazingMessagingViewController class];	
 ```
 
 ## Full Documentation
