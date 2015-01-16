@@ -7,6 +7,10 @@
 
 RaisinToast provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app.
 
+RaisinToast is simple to configure and minimizes the amount of notification code you have to add to your app to get consistent app-wide messaging.  
+
+After the initial setup if you want to customize the style of your messaging you don't have to touch any of the View Controllers where you present messages - just point the app delegate to your new RZErrorMessagingViewController subclass and the whole app gets a facelift.
+
 ![RaisinToast in action](https://github.com/Raizlabs/RaisinToast/blob/master/Example/raisin-toast-6plus.gif "RaisinToast Demo Project")
 
 ## Installation
@@ -169,6 +173,19 @@ In the app delegate use your custom class
 ```objc
 self.errorWindow = [RZMessagingWindow messagingWindow];
 self.errorWindow.messageViewControllerClass = [MyAmazingMessagingViewController class];	
+```
+
+### Multiple messaging styles
+
+In the sample project you'll notice we seemlessly switch between the default setup, a custom color scheme and a funky version that turns all your messaging attempts into a UIAlertView. This was done to show you the flexibility of Raisin Toast. 
+
+Without having to update a single view controller providing the meat of your app you can set the messageViewControllerClass property of the defaultMessagingWindow and the messaging gets a facelift. Feel free to use the subclasses provided in the sample project in your own apps.
+
+If you want to use more than one style, maybe different themes based on the section of your app or a style of presenting view controller you would set the messageViewControllerClass of the messagingWindow before you make the call to display the error:
+
+```objc 
+[[RZMessagingWindow messagingWindow] setMessageViewControllerClass:[RZAmityvilleErrorMessagingViewController class]];
+[RZErrorMessenger displayErrorWithTitle:@"Gross!" detail:@"Flies everywhere!" level:kRZErrorMessengerLevelError];
 ```
 
 ## Full Documentation
