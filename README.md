@@ -116,7 +116,7 @@ To use message strength use the convenience method errorWithDisplayTitle:detail:
 NSError *strongError = [RZErrorMessenger errorWithDisplayTitle:@"World's strongest error" detail:@"Coming to an iPhone near you soon." error:nil];
 ```
 
-Here we pass nil as the error object but if you're actually repsonding to a real NSError you can use that object to pull out the error domain and pass that through to help with debugging.
+Here we pass nil as the error object but if you're actually responding to a real NSError you can use that object to pull out the error domain and pass that through to help with debugging.
 
 Next we present the error and provide the message strength with displayError:withStrength:animated:
 
@@ -193,7 +193,7 @@ self.errorWindow.messageViewControllerClass = [MyAmazingMessagingViewController 
 
 ### Multiple messaging styles
 
-In the sample project you'll notice we seemlessly switch between the default setup, a custom color scheme and a funky version that turns all your messaging attempts into a UIAlertView. This was done to show you the flexibility of Raisin Toast. 
+In the sample project you'll notice we seamlessly switch between the default setup, a custom color scheme and a funky version that turns all your messaging attempts into a UIAlertView. This was done to show you the flexibility of Raisin Toast. 
 
 Without having to update a single view controller providing the meat of your app you can set the messageViewControllerClass property of the defaultMessagingWindow and the messaging gets a facelift. Feel free to use the subclasses provided in the sample project in your own apps.
 
