@@ -35,7 +35,7 @@ Note: The above steps assume that the CocoaPods gem is installed.
 
 If you do not have CocoaPods installed, follow the instructions [here](http://cocoapods.org/).
 
-## Overview
+## Basic Overview
 ### Configuration
 
 In app delegate add to imports:
@@ -106,6 +106,7 @@ The manual options are useful when you might want to perform additional processi
 
 Another example is if you want to present a sequence of messages and then either peel them all off one at a time or dismiss them all with a single animation block.
 
+## Advanced Options
 ### Style override
 
 Subclass RZErrorMessagingViewController 
