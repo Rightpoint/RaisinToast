@@ -36,7 +36,7 @@ Note: The above steps assume that the CocoaPods gem is installed.
 If you do not have CocoaPods installed, follow the instructions [here](http://cocoapods.org/).
 
 ## Overview
-### Out of the box configuration
+### Configuration
 
 In app delegate add to imports:
 
@@ -67,6 +67,8 @@ Call this method in `- (BOOL)application:(UIApplication *)application didFinishL
 ```objc
 [self setupMessagingWindow];
 ```
+
+### Presenting a notification
 
 To display your first notification anywhere in your app call the RZErrorMessenger class method:
 
