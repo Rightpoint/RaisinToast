@@ -110,6 +110,22 @@ The manual options are useful when you might want to perform additional processi
 
 Another example is if you want to present a sequence of messages and then either peel them all off one at a time or dismiss them all with a single animation block.
 
+To use message strength use the convenience method errorWithDisplayTitle:detail:error to create an NSError configured for RZErrorMessenger:
+
+```objc 
+NSError *strongError = [RZErrorMessenger errorWithDisplayTitle:@"World's strongest error" detail:@"Coming to an iPhone near you soon." error:nil];
+```
+
+Here we pass nil as the error object but if you're actually repsonding to a real NSError you can use that object to pull out the error domain and pass that through to help with debugging.
+
+Next we present the error and provide the message strength with displayError:withStrength:animated:
+
+```objc 
+[RZErrorMessenger displayError:strongError withStrength:kRZMessageStrengthStrongAutoDismiss animated:YES];
+```
+
+You could, though we advise against it, use Raisin Toast to present standard NSError objects. This might be helpful during debugging but typically you wouldn't want to show the user any of the system generated errors because they're intended for devs.
+
 ## Advanced Options
 ### Style override
 
