@@ -1,4 +1,4 @@
-# RaisinToast
+# RaisinToast: A Custom Alert View for iOS
 
 [![CI Status](http://img.shields.io/travis/adamhrz/RaisinToast.svg?style=flat)](https://travis-ci.org/adamhrz/RaisinToast)
 [![Version](https://img.shields.io/cocoapods/v/RaisinToast.svg?style=flat)](http://cocoadocs.org/docsets/RaisinToast)
