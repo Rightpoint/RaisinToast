@@ -209,11 +209,11 @@ For more comprehensive documentation, see the [CococaDocs](http://cocoadocs.org/
 
 ## Author
 
-adamhrz, adam.howitt@raizlabs.com, @earnshavian
+adamhrz, adam.howitt@raizlabs.com, [@earnshavian](https://twitter.com/earnshavian)
 
 ## Contributors
 
-arrouse, alex@raizlabs.com, @arrouse
+arrouse, alex@raizlabs.com, [@arrouse](https://twitter.com/arrouse)
 
 ## License
 
