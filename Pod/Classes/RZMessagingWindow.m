@@ -297,9 +297,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
     UIViewController *topViewController = [RZRootMessagingViewController topViewController];
     
     if ( topViewController == self ) {
-        // If the top view controller is itself then do the same as
-        // default by returning YES.
-        return YES;
+        return [super shouldAutorotate];
     }
     else {
         return topViewController.shouldAutorotate;
@@ -310,17 +308,8 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 {
     UIViewController *topViewController = [RZRootMessagingViewController topViewController];
     
-    if ( topViewController == self ) {
-        // If the top view controller is itself then do the same as
-        // default by:
-        // 1)For iPhone, all except upside down
-        // 2)For iPad, all
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ) {
-            return UIInterfaceOrientationMaskAllButUpsideDown;
-        }
-        else {
-            return UIInterfaceOrientationMaskAll;
-        }        
+    if ( topViewController == self ) {        
+        return [super supportedInterfaceOrientations];
     }
     else {
         return topViewController.supportedInterfaceOrientations;
@@ -352,11 +341,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
  *         where the search started. 
  */
 + (UIViewController *)topViewControllerWithRootViewController:(UIViewController *)rootViewController {
-    if ( [rootViewController isKindOfClass:[UITabBarController class]] ) {
-        UITabBarController* tabBarController = (UITabBarController *)rootViewController;
-        return [RZRootMessagingViewController topViewControllerWithRootViewController:tabBarController.selectedViewController];
-    }
-    else if ( [rootViewController isKindOfClass:[UINavigationController class]] ) {
+    if ( [rootViewController isKindOfClass:[UINavigationController class]] ) {
         UINavigationController* navigationController = (UINavigationController *)rootViewController;
         return [RZRootMessagingViewController topViewControllerWithRootViewController:navigationController.visibleViewController];
     }
