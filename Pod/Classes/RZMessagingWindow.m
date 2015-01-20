@@ -225,6 +225,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
         self.errorIsBeingPresented = YES;
 
         UIViewController <RZMessagingViewController> *messageVC = [[(Class)self.messageViewControllerClass alloc] init];
+
         [self.rootViewController addChildViewController:messageVC];
         [self.rootViewController.view addSubview:messageVC.view];
         [messageVC didMoveToParentViewController:self.rootViewController];
@@ -288,4 +289,69 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 #pragma mark - RZRootMessagingViewController
 
 @implementation RZRootMessagingViewController
+
+#pragma mark - Orientation method overrides
+
+-(BOOL)shouldAutorotate
+{
+    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    
+    if ( topViewController == self ) {
+        return [super shouldAutorotate];
+    }
+    else {
+        return topViewController.shouldAutorotate;
+    }
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    
+    if ( topViewController == self ) {        
+        return [super supportedInterfaceOrientations];
+    }
+    else {
+        return topViewController.supportedInterfaceOrientations;
+    }
+}
+
+#pragma mark - Helper class methods
+
+/**
+ * Find the presented top view controller of the keyed UIWindow's root view controller.
+ *
+ * @return Returns the visible, presented view controller.
+ */
++ (UIViewController *)topViewController
+{
+    NSArray *windows = [UIApplication sharedApplication].windows;
+    UIWindow *firstWindow = [windows firstObject];
+    
+    return [RZRootMessagingViewController topViewControllerWithRootViewController:firstWindow.rootViewController];
+}
+
+/**
+ * Find the presented top view controller recursively starting from the view
+ * controller passed in the parameter.
+ *
+ * @param rootViewController View controller to start the recursive search
+ *
+ * @return Returns the visible, presented view controller, otherwise the view controller
+ *         where the search started. 
+ */
++ (UIViewController *)topViewControllerWithRootViewController:(UIViewController *)rootViewController {
+    if ( [rootViewController isKindOfClass:[UINavigationController class]] ) {
+        UINavigationController* navigationController = (UINavigationController *)rootViewController;
+        return [RZRootMessagingViewController topViewControllerWithRootViewController:navigationController.visibleViewController];
+    }
+    else if ( rootViewController.presentedViewController ) {
+        UIViewController* presentedViewController = rootViewController.presentedViewController;
+        return [RZRootMessagingViewController topViewControllerWithRootViewController:presentedViewController];
+    }
+    else {
+        return rootViewController;
+    }
+}
+
 @end
