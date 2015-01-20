@@ -27,7 +27,6 @@
     if ( self.errorWindow == nil ) {
         self.errorWindow = [RZMessagingWindow messagingWindow];
         [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
-        self.errorWindow.messageViewControllerClass = [RZErrorMessagingViewController class];
     }
 }
 

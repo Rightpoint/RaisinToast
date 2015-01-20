@@ -61,8 +61,7 @@ In implementation add the setup code to `applicationDidBecomeActive:`:
 {
     if ( self.errorWindow == nil ) {
         self.errorWindow = [RZMessagingWindow messagingWindow];
-    [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
-        self.errorWindow.messageViewControllerClass = [RZErrorMessagingViewController class];
+        [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
     }
 }
 
