@@ -64,6 +64,7 @@ In implementation add the setup code to `applicationDidBecomeActive:`:
         [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
     }
 }
+```
 
 ### Presenting a notification
 
