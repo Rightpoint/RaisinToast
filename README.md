@@ -53,23 +53,18 @@ Add new property:
 @property (strong, nonatomic) RZMessagingWindow *errorWindow;
 ```
 
-In implementation add private method to create the default messaging window and provide an error domain for the messages based on the bundle ID:
+In implementation add the setup code to `applicationDidBecomeActive:`:
+
 
 ```objc
-- (void)setupMessagingWindow
+-(void)applicationDidBecomeActive:(UIApplication *)application
 {
-    self.errorWindow = [RZMessagingWindow defaultMessagingWindow];
-
+    if ( self.errorWindow == nil ) {
+        self.errorWindow = [RZMessagingWindow messagingWindow];
     [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
-    [RZErrorMessenger setDefaultErrorDomain:[NSString stringWithFormat:@"%@.error",[[NSBundle mainBundle] bundleIdentifier]]];
+        self.errorWindow.messageViewControllerClass = [RZErrorMessagingViewController class];
+    }
 }
-```
-
-Call this method in `- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions`
-
-```objc
-[self setupMessagingWindow];
-```
 
 ### Presenting a notification
 
