@@ -27,7 +27,7 @@
 //
 
 @import UIKit;
-#import <RaisinToast/RZMessagingWindow.h>
+#import "RZMessagingWindow.h"
 
 OBJC_EXPORT NSString * const kRZLevelError;
 OBJC_EXPORT NSString * const kRZLevelInfo;
