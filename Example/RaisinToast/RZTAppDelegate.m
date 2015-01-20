@@ -19,11 +19,15 @@
 {
     [self.window makeKeyAndVisible];
     // Override point for customization after application launch.
-    self.errorWindow = [RZMessagingWindow messagingWindow];
-    [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
-    [RZErrorMessenger setDefaultErrorDomain:[NSString stringWithFormat:@"%@.error",[[NSBundle mainBundle] bundleIdentifier]]];
-
     return YES;
+}
+
+-(void)applicationDidBecomeActive:(UIApplication *)application
+{
+    if ( self.errorWindow == nil ) {
+        self.errorWindow = [RZMessagingWindow messagingWindow];
+        [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
+    }
 }
 
 #pragma mark - Public

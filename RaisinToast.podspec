@@ -9,16 +9,18 @@
 
 Pod::Spec.new do |s|
   s.name             = "RaisinToast"
-  s.version          = "1.0.1"
+  s.version          = "1.0.2"
   s.summary          = "A UIWindow subclass used to message information to the users of your app."
   s.description      = <<-DESC
-                       Provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app.
+RaisinToast provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app. Think of it as bringing the really useful messaging concept of Android Toast to iOS.
+
+RaisinToast is simple to configure and minimizes the amount of notification code you have to add to your app to get consistent app-wide messaging.
                        DESC
   s.homepage         = "https://github.com/Raizlabs/RaisinToast"
   s.license          = 'MIT'
   s.author           = { "adamhrz" => "adam.howitt@raizlabs.com","arrouse" => "alex@raizlabs.com" }
   s.source           = { :git => "https://github.com/Raizlabs/RaisinToast.git", :tag => s.version.to_s }
-  s.social_media_url = 'https://twitter.com/raizlabs'
+  s.social_media_url = 'https://twitter.com/earnshavian'
 
   s.platform     = :ios, '6.0'
   s.requires_arc = true

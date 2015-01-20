@@ -27,7 +27,7 @@
 //
 
 #import "RZMessagingWindow.h"
-#import <RaisinToast/RZErrorMessagingViewController.h>
+#import "RZErrorMessagingViewController.h"
 
 static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
