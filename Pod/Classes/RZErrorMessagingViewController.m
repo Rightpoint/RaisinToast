@@ -61,6 +61,14 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
     return self;
 }
 
+/**
+ *  Set the style of the status bar for the message
+ */
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma mark - UIViewController methods
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -162,6 +170,7 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
         [UIView animateWithDuration:0.7f delay:0.0f usingSpringWithDamping:0.65f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self.view.superview layoutIfNeeded];
             self.view.alpha = 1.0f;
+            [self setNeedsStatusBarAppearanceUpdate];
         } completion:^(BOOL finished) {
             if ( completion != nil ) {
                 completion(finished);
@@ -171,6 +180,7 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
     else {
         [self.view.superview layoutIfNeeded];
         self.view.alpha = 1.0f;
+        [self setNeedsStatusBarAppearanceUpdate];
         if ( completion != nil ) {
             completion(YES);
         }
@@ -184,6 +194,7 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
         [UIView animateWithDuration:0.7f delay:0.0f usingSpringWithDamping:0.65f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self.view.superview layoutIfNeeded];
             self.view.alpha = 0.0f;
+            [self setNeedsStatusBarAppearanceUpdate];
         } completion:^(BOOL finished) {
             if ( completion != nil ) {
                 completion(finished);
@@ -193,6 +204,7 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
     else {
         [self.view.superview layoutIfNeeded];
         self.view.alpha = 0.0f;
+        [self setNeedsStatusBarAppearanceUpdate];
         if ( completion != nil ) {
             completion(YES);
         }
