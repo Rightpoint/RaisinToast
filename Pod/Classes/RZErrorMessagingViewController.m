@@ -61,9 +61,6 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
     return self;
 }
 
-/**
- *  Set the style of the status bar for the message
- */
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;

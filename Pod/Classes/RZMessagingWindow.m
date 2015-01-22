@@ -302,7 +302,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
         statusBarStyle = [super preferredStatusBarStyle];
     }
     else {
-        statusBarStyle = topViewController.preferredStatusBarStyle;
+        statusBarStyle = [topViewController preferredStatusBarStyle];
     }
     return statusBarStyle;
 }
@@ -316,7 +316,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
         childViewController = [self.childViewControllers lastObject];
     }
     else {
-        childViewController = topViewController.childViewControllerForStatusBarStyle;
+        childViewController = [topViewController childViewControllerForStatusBarStyle];
     }
     return childViewController;
     
@@ -326,14 +326,14 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 {
     UIViewController *topViewController = [RZRootMessagingViewController topViewController];
     
-    return topViewController.shouldAutorotate;
+    return [topViewController shouldAutorotate];
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
     UIViewController *topViewController = [RZRootMessagingViewController topViewController];
     
-    return topViewController.supportedInterfaceOrientations;;
+    return [topViewController supportedInterfaceOrientations];
 }
 
 #pragma mark - Helper class methods
