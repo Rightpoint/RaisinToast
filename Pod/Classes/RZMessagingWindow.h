@@ -68,7 +68,7 @@ typedef void(^RZMessagingWindowAnimationCompletionBlock)(BOOL finished);
 #pragma mark - RZMessagingWindow
 
 /**
- *  Protocol to support if using a custom view controller for presenting errors
+ *  Protocol to support if using a custom view controller for presenting errors. If you provide preferredStatusBarStyle in your custom messaging view controller the error message will use the specified style when an error presents and can animate it in and out.
  */
 @protocol RZMessagingViewController <NSObject>
 /**
@@ -81,6 +81,8 @@ typedef void(^RZMessagingWindowAnimationCompletionBlock)(BOOL finished);
 /**
  *  Sets up the appearance of the error message and configures the height of the error window to match the message.
  *
+ *  Call [self setNeedsStatusBarAppearanceUpdate] inside this method to respect the preferredStatusBarStyle you provide in your messaging view controller
+ *
  *  @param animated   If error appearance is animated, responsible for providing the animation block and executing the completion block upon finishing.  Without animation, it simply presents the error and executes the completion block.
  *  @param completion Any code to execute once presented. For example you could not use autodismiss property (dismisses on tap) and have the completion handler start a timer and dismiss the error window upon expiration.
  */
@@ -88,6 +90,8 @@ typedef void(^RZMessagingWindowAnimationCompletionBlock)(BOOL finished);
 
 /**
  *  Sets up the constraints necessary to hide the error window and animate if desired.
+ *
+ *  Call [self setNeedsStatusBarAppearanceUpdate] inside this method to respect the preferredStatusBarStyle you provide in your messaging view controller
  *
  *  @param animated   If animated, will configure the view animation and execute the completion block if provided. If not, it just calls the completion block.
  *  @param completion Cleanup to do after an error is dismissed. For example you may want to pop out of a view controller or reload a network request.
