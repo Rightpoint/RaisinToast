@@ -55,14 +55,15 @@ Add new property:
 @property (strong, nonatomic) RZMessagingWindow *errorWindow;
 ```
 
-In implementation add the setup code to `applicationDidBecomeActive:`:
+In implementation add the setup code to `applicationDidBecomeActive:` and it must come *AFTER* the `[self.window makeKeyAndVisible]` :
 
 
 ```objc
 -(void)applicationDidBecomeActive:(UIApplication *)application
 {
+    [self.window makeKeyAndVisible];
     if ( self.errorWindow == nil ) {
-        self.errorWindow = [RZMessagingWindow messagingWindow];
+        self.errorWindow = [RZMessagingWindow defaultMessagingWindow];
         [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
     }
 }
