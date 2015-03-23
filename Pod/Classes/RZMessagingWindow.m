@@ -127,7 +127,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 - (NSError *)displayedError
 {
-    return [self.errorsToDisplay firstObject];
+    return [[self.errorsToDisplay firstObject] error];
 }
 
 - (BOOL)isCurrentlyDisplayingAnError
@@ -224,7 +224,13 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
     if ( !self.errorPresented && !self.errorIsBeingPresented ) {
         self.errorIsBeingPresented = YES;
 
-        UIViewController <RZMessagingViewController> *messageVC = [[(Class)self.messageViewControllerClass alloc] init];
+        UIViewController <RZMessagingViewController> *messageVC = nil;
+        if ( self.messageViewControllerInstance ) {
+            messageVC = self.messageViewControllerInstance;
+        }
+        else {
+            messageVC = [[(Class)self.messageViewControllerClass alloc] init];            
+        }
 
         [self.rootViewController addChildViewController:messageVC];
         [self.rootViewController.view addSubview:messageVC.view];
@@ -292,28 +298,48 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 #pragma mark - Orientation method overrides
 
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+
+    UIStatusBarStyle statusBarStyle;
+    
+    if ( [(RZMessagingWindow *)self.view.window errorIsBeingPresented] ) {
+        statusBarStyle = [super preferredStatusBarStyle];
+    }
+    else {
+        statusBarStyle = [topViewController preferredStatusBarStyle];
+    }
+    return statusBarStyle;
+}
+
+-(UIViewController *)childViewControllerForStatusBarStyle
+{
+    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    
+    UIViewController *childViewController;
+    if ( [(RZMessagingWindow *)self.view.window errorIsBeingPresented] ) {
+        childViewController = [self.childViewControllers lastObject];
+    }
+    else {
+        childViewController = [topViewController childViewControllerForStatusBarStyle];
+    }
+    return childViewController;
+    
+}
+
 -(BOOL)shouldAutorotate
 {
     UIViewController *topViewController = [RZRootMessagingViewController topViewController];
     
-    if ( topViewController == self ) {
-        return [super shouldAutorotate];
-    }
-    else {
-        return topViewController.shouldAutorotate;
-    }
+    return [topViewController shouldAutorotate];
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
     UIViewController *topViewController = [RZRootMessagingViewController topViewController];
     
-    if ( topViewController == self ) {        
-        return [super supportedInterfaceOrientations];
-    }
-    else {
-        return topViewController.supportedInterfaceOrientations;
-    }
+    return [topViewController supportedInterfaceOrientations];
 }
 
 #pragma mark - Helper class methods
@@ -325,10 +351,9 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
  */
 + (UIViewController *)topViewController
 {
-    NSArray *windows = [UIApplication sharedApplication].windows;
-    UIWindow *firstWindow = [windows firstObject];
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     
-    return [RZRootMessagingViewController topViewControllerWithRootViewController:firstWindow.rootViewController];
+    return [RZRootMessagingViewController topViewControllerWithRootViewController:keyWindow.rootViewController];
 }
 
 /**
