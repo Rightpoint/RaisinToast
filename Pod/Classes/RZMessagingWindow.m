@@ -127,7 +127,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 - (NSError *)displayedError
 {
-    return [self.errorsToDisplay firstObject];
+    return [[self.errorsToDisplay firstObject] error];
 }
 
 - (BOOL)isCurrentlyDisplayingAnError
