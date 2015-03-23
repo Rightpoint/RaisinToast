@@ -121,6 +121,12 @@ typedef void(^RZMessagingWindowAnimationCompletionBlock)(BOOL finished);
  */
 @property (assign, nonatomic) Class <RZMessagingViewController> messageViewControllerClass;
 
+/**
+ * Set this to assign an instance of ViewController that conforms to RZMessagingViewController.
+ * If such ViewController is set on the window it takes a precedence over a ViewController that
+ * would be created from the property messageViewControllerClass.
+ */
+@property (strong, nonatomic) UIViewController <RZMessagingViewController> *messageViewControllerInstance;
 
 /**
  *  The Message that is currently being displayed.

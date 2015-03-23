@@ -224,7 +224,13 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
     if ( !self.errorPresented && !self.errorIsBeingPresented ) {
         self.errorIsBeingPresented = YES;
 
-        UIViewController <RZMessagingViewController> *messageVC = [[(Class)self.messageViewControllerClass alloc] init];
+        UIViewController <RZMessagingViewController> *messageVC = nil;
+        if ( self.messageViewControllerInstance ) {
+            messageVC = self.messageViewControllerInstance;
+        }
+        else {
+            messageVC = [[(Class)self.messageViewControllerClass alloc] init];            
+        }
 
         [self.rootViewController addChildViewController:messageVC];
         [self.rootViewController.view addSubview:messageVC.view];
