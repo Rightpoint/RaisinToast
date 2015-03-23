@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "RaisinToast"
-  s.version          = "1.0.3"
+  s.version          = "1.0.4"
   s.summary          = "A UIWindow subclass used to message information to the users of your app."
   s.description      = <<-DESC
 RaisinToast provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app. Think of it as bringing the really useful messaging concept of Android Toast to iOS.
