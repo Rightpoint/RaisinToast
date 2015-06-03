@@ -370,7 +370,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
         UINavigationController* navigationController = (UINavigationController *)rootViewController;
         return [RZRootMessagingViewController topViewControllerWithRootViewController:navigationController.visibleViewController];
     }
-    else if ( rootViewController.presentedViewController ) {
+    else if ( rootViewController.presentedViewController && !rootViewController.presentedViewController.isBeingDismissed ) {
         UIViewController* presentedViewController = rootViewController.presentedViewController;
         return [RZRootMessagingViewController topViewControllerWithRootViewController:presentedViewController];
     }
