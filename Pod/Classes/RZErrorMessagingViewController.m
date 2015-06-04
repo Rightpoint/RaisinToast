@@ -232,15 +232,16 @@ static CGFloat const kErrorMessagingViewVerticalPadding = 20.0f;
 - (CGFloat)updatedHeightWithWidth:(CGFloat)width
 {
     CGFloat height = _errorMessagingViewVisibleHeight;
-    
-    NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:self.detailLabel.text attributes:@{ NSFontAttributeName : self.detailLabel.font }];
-    CGRect rect = [attributedText boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
-                                               options:NSStringDrawingUsesLineFragmentOrigin
-                                               context:nil];
-    
-    CGSize size = rect.size;
-    
-    height += size.height;
+
+    if ( self.detailLabel.text != nil ) {
+        NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:self.detailLabel.text attributes:@{ NSFontAttributeName : self.detailLabel.font }];
+        CGRect rect = [attributedText boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
+                                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                                   context:nil];
+
+        height += CGRectGetHeight(rect);
+    }
+
     return height;
 }
 
