@@ -337,9 +337,17 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 - (NSUInteger)supportedInterfaceOrientations
 {
+    NSUInteger supportedOrientations = UIInterfaceOrientationMaskAll;
+
     UIViewController *topViewController = [RZRootMessagingViewController topViewController];
-    
-    return [topViewController supportedInterfaceOrientations];
+
+    // Ignore supported orientations of system windows - inferred by the absence of the window of interest in the list of application windows since _isSystemWindow is private
+    UIWindow *topVCWindow = topViewController.view.window;
+    if ( [[[UIApplication sharedApplication] windows] containsObject:topVCWindow] ) {
+        supportedOrientations = [topViewController supportedInterfaceOrientations];
+    }
+
+    return supportedOrientations;
 }
 
 #pragma mark - Helper class methods
