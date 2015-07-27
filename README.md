@@ -1,11 +1,13 @@
 # RaisinToast: A Custom Alert View for iOS
-
 [![Version](https://img.shields.io/cocoapods/v/RaisinToast.svg?style=flat)](http://cocoadocs.org/docsets/RaisinToast)
 [![License](https://img.shields.io/cocoapods/l/RaisinToast.svg?style=flat)](http://cocoadocs.org/docsets/RaisinToast)
 [![Platform](https://img.shields.io/cocoapods/p/RaisinToast.svg?style=flat)](http://cocoadocs.org/docsets/RaisinToast)
 [![Analytics](https://ga-beacon.appspot.com/UA-67114-4/RaisinToast/readme)](https://github.com/igrigorik/ga-beacon)
 
 
+
+
+<a href="http://www.raizlabs.com/company/jobs/"><img align="right" style="margin-left:-20px;"  src="http://www.raizlabs.com/wp-content/uploads/2015/07/Hiring-Ribbon-Raizlabs.gif"></a>
 RaisinToast provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app. Think of it as bringing the really useful messaging concept of Android Toast to iOS.
 
 RaisinToast is simple to configure and minimizes the amount of notification code you have to add to your app to get consistent app-wide messaging.  
@@ -13,6 +15,8 @@ RaisinToast is simple to configure and minimizes the amount of notification code
 After the initial setup if you want to customize the style of your messaging you don't have to touch any of the View Controllers where you present messages - just point the app delegate to your new RZErrorMessagingViewController subclass and the whole app gets a facelift.
 
 ![RaisinToast in action](https://github.com/Raizlabs/RaisinToast/blob/master/Example/raisin-toast-6plus.gif "RaisinToast Demo Project")
+
+
 
 ## Installation
 
