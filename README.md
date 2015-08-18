@@ -4,10 +4,6 @@
 [![Platform](https://img.shields.io/cocoapods/p/RaisinToast.svg?style=flat)](http://cocoadocs.org/docsets/RaisinToast)
 [![Analytics](https://ga-beacon.appspot.com/UA-67114-4/RaisinToast/readme)](https://github.com/igrigorik/ga-beacon)
 
-
-
-
-<a href="http://www.raizlabs.com/company/jobs/"><img align="right" style="margin-left:-20px;"  src="http://www.raizlabs.com/wp-content/uploads/2015/07/Hiring-Ribbon-Raizlabs.gif"></a>
 RaisinToast provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app. Think of it as bringing the really useful messaging concept of Android Toast to iOS.
 
 RaisinToast is simple to configure and minimizes the amount of notification code you have to add to your app to get consistent app-wide messaging.  
@@ -204,7 +200,6 @@ If you want to use more than one style, maybe different themes based on the sect
 [[RZMessagingWindow messagingWindow] setMessageViewControllerClass:[RZAmityvilleErrorMessagingViewController class]];
 [RZErrorMessenger displayErrorWithTitle:@"Gross!" detail:@"Flies everywhere!" level:kRZErrorMessengerLevelError];
 ```
-
 ## Full Documentation
 
 For more comprehensive documentation, see the [CococaDocs](http://cocoadocs.org/docsets/RaisinToast) page.
@@ -220,3 +215,6 @@ arrouse, alex@raizlabs.com, [@arrouse](https://twitter.com/arrouse)
 ## License
 
 RaisinToast is available under the MIT license. See the LICENSE file for more info.
+
+
+<a href="http://bit.ly/RZJobsGH"><img src="http://www.raizlabs.com/wp-content/uploads/2015/08/legen-waitforit-dary.png"></a>
