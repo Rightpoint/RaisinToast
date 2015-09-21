@@ -191,11 +191,33 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
         [self hideDisplayedErrorAnimated:animated force:NO];
     }
     else {
-        NSInteger index = [self.errorsToDisplay indexOfObject:error];
-        if ( index == 1 ) {
-            [self hideDisplayedErrorAnimated:animated force:NO];
-        } else {
-            [self.errorsToDisplay removeObject:error];
+        // We can't use indexOfObject and removeObject here
+        // when bridged to Swift since the array contains
+        // RZMessage objects and we have an NSError object.
+        // Objective-C will still iterate of the array and
+        // call isEqual on all the members, Swift will not.
+        // More than likely it may be necessary to start
+        // returning RZMessage objects as handles rather
+        // than NSError?
+        NSInteger index = 0;
+        NSInteger foundAt = -1;
+        for (RZMessage *msg in self.errorsToDisplay) {
+            if ([error isEqual:msg.error]) {
+                foundAt = index;
+                break;
+            }
+            index++;
+        }
+        
+        switch (foundAt) {
+            case 0:
+                [self hideDisplayedErrorAnimated:animated force:NO];
+                break;
+            case -1:
+                break;
+            default:
+                [self.errorsToDisplay removeObjectAtIndex:foundAt];
+                break;
         }
     }
 }
