@@ -1,10 +1,8 @@
 # RaisinToast: A Custom Alert View for iOS
-
 [![Version](https://img.shields.io/cocoapods/v/RaisinToast.svg?style=flat)](http://cocoadocs.org/docsets/RaisinToast)
 [![License](https://img.shields.io/cocoapods/l/RaisinToast.svg?style=flat)](http://cocoadocs.org/docsets/RaisinToast)
 [![Platform](https://img.shields.io/cocoapods/p/RaisinToast.svg?style=flat)](http://cocoadocs.org/docsets/RaisinToast)
 [![Analytics](https://ga-beacon.appspot.com/UA-67114-4/RaisinToast/readme)](https://github.com/igrigorik/ga-beacon)
-
 
 RaisinToast provides a messaging window layer and a default "toast" view controller, ideal for presenting errors, warnings and feedback throughout your app. Think of it as bringing the really useful messaging concept of Android Toast to iOS.
 
@@ -13,6 +11,8 @@ RaisinToast is simple to configure and minimizes the amount of notification code
 After the initial setup if you want to customize the style of your messaging you don't have to touch any of the View Controllers where you present messages - just point the app delegate to your new RZErrorMessagingViewController subclass and the whole app gets a facelift.
 
 ![RaisinToast in action](https://github.com/Raizlabs/RaisinToast/blob/master/Example/raisin-toast-6plus.gif "RaisinToast Demo Project")
+
+
 
 ## Installation
 
@@ -200,7 +200,6 @@ If you want to use more than one style, maybe different themes based on the sect
 [[RZMessagingWindow messagingWindow] setMessageViewControllerClass:[RZAmityvilleErrorMessagingViewController class]];
 [RZErrorMessenger displayErrorWithTitle:@"Gross!" detail:@"Flies everywhere!" level:kRZErrorMessengerLevelError];
 ```
-
 ## Full Documentation
 
 For more comprehensive documentation, see the [CococaDocs](http://cocoadocs.org/docsets/RaisinToast) page.
@@ -216,3 +215,6 @@ arrouse, alex@raizlabs.com, [@arrouse](https://twitter.com/arrouse)
 ## License
 
 RaisinToast is available under the MIT license. See the LICENSE file for more info.
+
+
+<a href="http://bit.ly/RZJobsGH"><img src="http://www.raizlabs.com/wp-content/uploads/2015/08/legen-waitforit-dary.png"></a>
