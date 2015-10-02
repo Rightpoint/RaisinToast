@@ -10,7 +10,7 @@
 
 @interface RZTCustomErrorViewController ()
 @property (weak, nonatomic) NSError *error;
-@property (strong, nonatomic) UIAlertView *alertView;
+@property (strong, nonatomic) UIAlertController *alertViewController;
 @property (weak, nonatomic) NSLayoutConstraint *bottomAnimationConstraint;
 @property (weak, nonatomic) NSLayoutConstraint *heightConstraint;
 @end
@@ -31,13 +31,17 @@
 - (void)rz_configureWithError:(NSError *)error
 {
     self.error = error;
-    self.alertView = [[UIAlertView alloc] initWithTitle:self.error.localizedDescription message:self.error.localizedRecoverySuggestion delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    self.alertViewController = [UIAlertController alertControllerWithTitle:self.error.localizedDescription message:self.error.localizedRecoverySuggestion preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    
+    [self.alertViewController addAction:defaultAction];
 }
 
 - (void)rz_presentAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion
 {
     self.view.hidden = NO;
-    [self.alertView show];
+    [self presentViewController:self.alertViewController animated:YES completion:nil];
 
     if ( completion != nil ) {
         completion(YES);
@@ -46,7 +50,8 @@
 
 - (void)rz_dismissAnimated:(BOOL)animated completion:(RZMessagingWindowAnimationCompletionBlock)completion
 {
-    [self.alertView dismissWithClickedButtonIndex:self.alertView.cancelButtonIndex animated:animated];
+    [self dismissViewControllerAnimated:animated completion:nil];
+
     self.bottomAnimationConstraint.constant = 0.0f;
     self.view.alpha = 0.0f;
     self.view.hidden = YES;
