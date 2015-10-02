@@ -57,7 +57,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 + (instancetype)messageFromError:(NSError *)error animated:(BOOL)animated messageStrength:(RZMessageStrength)strength
 {
-    RZMessage *message = [[RZMessage alloc] init];
+    RZMessage *message = [[self alloc] init];
     message.error = error;
     message.animated = animated;
     message.strength = strength;
@@ -93,7 +93,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 + (instancetype)messagingWindow
 {
-    RZMessagingWindow *messageWindow = [[RZMessagingWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    RZMessagingWindow *messageWindow = [[self alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     RZRootMessagingViewController *rootVC = [[RZRootMessagingViewController alloc] init];
     messageWindow.rootViewController = rootVC;
     //Automatically adds itself
@@ -103,7 +103,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 + (instancetype)defaultMessagingWindow
 {
-    RZMessagingWindow *messageWindow = [RZMessagingWindow messagingWindow];
+    RZMessagingWindow *messageWindow = [self messagingWindow];
     messageWindow.messageViewControllerClass = [RZErrorMessagingViewController class];
     return messageWindow;
 }
@@ -374,7 +374,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
         UINavigationController* navigationController = (UINavigationController *)rootViewController;
         return [RZRootMessagingViewController topViewControllerWithRootViewController:navigationController.visibleViewController];
     }
-    else if ( rootViewController.presentedViewController ) {
+    else if ( rootViewController.presentedViewController && !rootViewController.presentedViewController.isBeingDismissed ) {
         UIViewController* presentedViewController = rootViewController.presentedViewController;
         return [RZRootMessagingViewController topViewControllerWithRootViewController:presentedViewController];
     }

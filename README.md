@@ -43,29 +43,20 @@ If you do not have CocoaPods installed, follow the instructions [here](http://co
 ## Basic Overview
 ### Configuration
 
-In app delegate add to imports:
+In app delegate implementation import RZMessagingWindow:
 
 ```objc
-@class RZMessagingWindow;
-```
-
-Add new property:
-
-```objc
-@property (strong, nonatomic) RZMessagingWindow *errorWindow;
+#import "RZMessagingWindow.h";
 ```
 
 In implementation add the setup code to `applicationDidBecomeActive:` and it must come *AFTER* the `[self.window makeKeyAndVisible]` :
 
-
 ```objc
 -(void)applicationDidBecomeActive:(UIApplication *)application
 {
-    [self.window makeKeyAndVisible];
-    if ( self.errorWindow == nil ) {
-        self.errorWindow = [RZMessagingWindow defaultMessagingWindow];
-        [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
-    }
+    [self.window makeKeyAndVisible]; // Must come first
+
+    [RZErrorMessenger setDefaultMessagingWindow:[RZMessagingWindow defaultMessagingWindow]];
 }
 ```
 
@@ -124,6 +115,37 @@ Next we present the error and provide the message strength with displayError:wit
 You could, though we advise against it, use Raisin Toast to present standard NSError objects. This might be helpful during debugging but typically you wouldn't want to show the user any of the system generated errors because they're intended for devs.
 
 ## Advanced Options
+### Customizing the error window
+
+If you plan on supporting multiple error window styles or customizing you'll need to configure your app delegate a different way:
+
+In app delegate add to imports:
+
+```objc
+@class RZMessagingWindow;
+```
+
+Add a new property to the app delegate:
+
+```objc
+@property (strong, nonatomic) RZMessagingWindow *errorWindow;
+```
+
+In your delegate implementation add the setup code to `applicationDidBecomeActive:` and it must come *AFTER* the `[self.window makeKeyAndVisible]` :
+
+
+```objc
+-(void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [self.window makeKeyAndVisible]; // Must come first
+
+    if ( self.errorWindow == nil ) {
+        self.errorWindow = [RZMessagingWindow defaultMessagingWindow];
+        [RZErrorMessenger setDefaultMessagingWindow:self.errorWindow];
+    }
+}
+```
+
 ### Style override
 
 Subclass RZErrorMessagingViewController 
