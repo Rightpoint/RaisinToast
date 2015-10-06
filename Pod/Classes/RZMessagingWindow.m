@@ -211,7 +211,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
         
         switch (foundAt) {
             case 0:
-                [self hideDisplayedErrorAnimated:animated force:NO];
+                [self hideDisplayedErrorAnimated:animated force:YES];
                 break;
             case -1:
                 break;
