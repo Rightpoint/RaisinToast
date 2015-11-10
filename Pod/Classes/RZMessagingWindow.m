@@ -31,6 +31,10 @@
 
 static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
+@interface UIApplication (mainWindow)
+- (UIWindow*)mainApplicationWindowIgnoringWindow:(UIWindow*)ignoringWindow;
+@end
+
 /**
  *  This is used to identify what touches need to be passed through to the main application window.
  */
@@ -322,7 +326,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
-    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    UIViewController *topViewController = [self topViewController];
 
     UIStatusBarStyle statusBarStyle;
     
@@ -337,7 +341,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 -(UIViewController *)childViewControllerForStatusBarStyle
 {
-    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    UIViewController *topViewController = [self topViewController];
     
     UIViewController *childViewController;
     if ( [(RZMessagingWindow *)self.view.window errorIsBeingPresented] ) {
@@ -352,14 +356,14 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 -(BOOL)shouldAutorotate
 {
-    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    UIViewController *topViewController = [self topViewController];
     
     return [topViewController shouldAutorotate];
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    UIViewController *topViewController = [self topViewController];
     
     return [topViewController supportedInterfaceOrientations];
 }
@@ -371,11 +375,12 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
  *
  * @return Returns the visible, presented view controller.
  */
-+ (UIViewController *)topViewController
+- (UIViewController *)topViewController
 {
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    // UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    UIWindow *mainAppWindow = [[UIApplication sharedApplication] mainApplicationWindowIgnoringWindow:self.view.window];
     
-    return [RZRootMessagingViewController topViewControllerWithRootViewController:keyWindow.rootViewController];
+    return [RZRootMessagingViewController topViewControllerWithRootViewController:mainAppWindow.rootViewController];
 }
 
 /**
@@ -402,3 +407,16 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 }
 
 @end
+
+@implementation UIApplication (mainWindow)
+// we don't want the keyWindow, since it could be our own window
+- (UIWindow*)mainApplicationWindowIgnoringWindow:(UIWindow *)ignoringWindow {
+    for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
+        if (!window.hidden && window != ignoringWindow) {
+            return window;
+        }
+    }
+    return nil;
+}
+@end
+
