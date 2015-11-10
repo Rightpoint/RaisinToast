@@ -31,6 +31,10 @@
 
 static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
+@interface UIApplication (mainWindow)
+- (UIWindow*)mainApplicationWindowIgnoringWindow:(UIWindow*)ignoringWindow;
+@end
+
 /**
  *  This is used to identify what touches need to be passed through to the main application window.
  */
@@ -191,11 +195,33 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
         [self hideDisplayedErrorAnimated:animated force:NO];
     }
     else {
-        NSInteger index = [self.errorsToDisplay indexOfObject:error];
-        if ( index == 1 ) {
-            [self hideDisplayedErrorAnimated:animated force:NO];
-        } else {
-            [self.errorsToDisplay removeObject:error];
+        // We can't use indexOfObject and removeObject here
+        // when bridged to Swift since the array contains
+        // RZMessage objects and we have an NSError object.
+        // Objective-C will still iterate of the array and
+        // call isEqual on all the members, Swift will not.
+        // More than likely it may be necessary to start
+        // returning RZMessage objects as handles rather
+        // than NSError?
+        NSInteger index = 0;
+        NSInteger foundAt = -1;
+        for (RZMessage *msg in self.errorsToDisplay) {
+            if ([error isEqual:msg.error]) {
+                foundAt = index;
+                break;
+            }
+            index++;
+        }
+        
+        switch (foundAt) {
+            case 0:
+                [self hideDisplayedErrorAnimated:animated force:YES];
+                break;
+            case -1:
+                break;
+            default:
+                [self.errorsToDisplay removeObjectAtIndex:foundAt];
+                break;
         }
     }
 }
@@ -300,7 +326,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
-    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    UIViewController *topViewController = [self topViewController];
 
     UIStatusBarStyle statusBarStyle;
     
@@ -315,7 +341,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 -(UIViewController *)childViewControllerForStatusBarStyle
 {
-    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    UIViewController *topViewController = [self topViewController];
     
     UIViewController *childViewController;
     if ( [(RZMessagingWindow *)self.view.window errorIsBeingPresented] ) {
@@ -330,7 +356,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 
 -(BOOL)shouldAutorotate
 {
-    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    UIViewController *topViewController = [self topViewController];
     
     return [topViewController shouldAutorotate];
 }
@@ -341,7 +367,7 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 - (NSUInteger)supportedInterfaceOrientations
 #endif
 {
-    UIViewController *topViewController = [RZRootMessagingViewController topViewController];
+    UIViewController *topViewController = [self topViewController];
     
     return [topViewController supportedInterfaceOrientations];
 }
@@ -353,11 +379,12 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
  *
  * @return Returns the visible, presented view controller.
  */
-+ (UIViewController *)topViewController
+- (UIViewController *)topViewController
 {
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    // UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    UIWindow *mainAppWindow = [[UIApplication sharedApplication] mainApplicationWindowIgnoringWindow:self.view.window];
     
-    return [RZRootMessagingViewController topViewControllerWithRootViewController:keyWindow.rootViewController];
+    return [RZRootMessagingViewController topViewControllerWithRootViewController:mainAppWindow.rootViewController];
 }
 
 /**
@@ -384,3 +411,16 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 }
 
 @end
+
+@implementation UIApplication (mainWindow)
+// we don't want the keyWindow, since it could be our own window
+- (UIWindow*)mainApplicationWindowIgnoringWindow:(UIWindow *)ignoringWindow {
+    for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
+        if (!window.hidden && window != ignoringWindow) {
+            return window;
+        }
+    }
+    return nil;
+}
+@end
+
