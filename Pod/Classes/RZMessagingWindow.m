@@ -349,15 +349,15 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 #pragma mark - Helper class methods
 
 /**
- * Find the presented top view controller of the keyed UIWindow's root view controller.
+ * Find the presented top view controller of the App Delegate UIWindow's root view controller.
  *
  * @return Returns the visible, presented view controller.
  */
 + (UIViewController *)topViewController
 {
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    UIWindow *mainWindow = [UIApplication sharedApplication].delegate.window;
     
-    return [RZRootMessagingViewController topViewControllerWithRootViewController:keyWindow.rootViewController];
+    return [RZRootMessagingViewController topViewControllerWithRootViewController:mainWindow.rootViewController];
 }
 
 /**
