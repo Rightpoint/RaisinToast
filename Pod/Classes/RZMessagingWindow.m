@@ -178,7 +178,10 @@ static CGFloat const RZErrorWindowBlackoutAnimationInterval = 0.5f;
 - (void)showMessageFromError:(NSError *)error strength:(RZMessageStrength)strength animated:(BOOL)animated
 {
     NSParameterAssert(error);
-    
+    if ([error isEqual:self.displayedError]) {
+        return;
+    }
+
     RZMessage *message = [RZMessage messageFromError:error animated:animated messageStrength:strength];
     [self showMessage:message];
     [self.errorsToDisplay addObject:message];
